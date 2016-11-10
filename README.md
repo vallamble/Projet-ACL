@@ -4,8 +4,11 @@ La liste des tâches du sprint 1 et le diagramme de classes UML se trouve dans l
 
 Pour compiler le projet, se placer dans le dossier src et faire :
 
-javac model/*.java
 
-Puis pour exècuter :
+Version 1.0 utilisatable sous Linux / Unix :
 
-java model.Game
+  javac model/*.java
+
+  Puis pour exècuter :
+
+  java model.Game
