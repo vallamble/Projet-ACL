@@ -1,24 +1,22 @@
+package model;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Game extends JFrame {
 
-	public Game()
-	{
-		World world = new World(640,480);
-		add(world, BorderLayout.CENTER);
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 600);
-		setVisible(true);
-	}
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		Game g = new Game();
+		JFrame fenetre = new JFrame("Space Ship");
+	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    World world = new World(400, 600);
+	    world.setPreferredSize(new Dimension(400,600));
+	    fenetre.setContentPane(world);
+	    fenetre.pack();
+	    fenetre.setVisible(true);
+	    world.requestFocus();
 	}
 
 }

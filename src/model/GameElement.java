@@ -10,4 +10,11 @@ public abstract class GameElement {
 		position = pos;
 	}
 
+	/**
+	 * @return the position
+	 */
+	public Vector2 getPosition() {
+		return position;
+	}
+	
 }

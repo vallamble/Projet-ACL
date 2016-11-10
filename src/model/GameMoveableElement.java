@@ -12,11 +12,20 @@ public class GameMoveableElement extends GameElement {
 	
 	public GameMoveableElement(Vector2 pos) {
 		super(pos);
+		speed = 1;
+	}
+	
+	public void turnLeft() {
+		this.direction = Direction.LEFT; 
 	}
 
+	public void turnRight() {
+		this.direction = Direction.RIGHT; 
+	}
+	
 	public void update(float delta) {
 		if (isMoving) {
-			// Déplacemement horizontal uniquement
+			// Dï¿½placemement horizontal uniquement
 			switch(direction) {
 				case UP:
 				case DOWN:
@@ -28,6 +37,7 @@ public class GameMoveableElement extends GameElement {
 					position.x += delta*speed;
 					break;
 			}
+			
 		}
 	}
 }
