@@ -1,18 +1,20 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
+import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
 import fr.univ_lorraine.spaceinvaders.controller.GameListener;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 /**
  * Ecran principale du jeu.
  */
-public class GameScreen extends ScreenAdapter {
+public class GameScreen extends AbstractScreen {
 
     private World world;
 
@@ -30,7 +32,8 @@ public class GameScreen extends ScreenAdapter {
      */
     private boolean showFPS;
 
-    public GameScreen() {
+    public GameScreen(SpaceInvadersGame g) {
+        super(g);
         world = new World(15f, 20f);
         worldRenderer = new WorldRenderer(world);
         gameListener = new GameListener(world.getShip());
@@ -49,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
         // On verifie si une touche est maintenue
         gameListener.checkHeldKey();
 
-        world.update(delta);    // On met a jour le monde
+        world.update(delta);         // On met a jour le monde
         worldRenderer.render(delta); // et on l'affiche
         Gdx.gl.glDisable(GL20.GL_BLEND);
 

@@ -1,14 +1,26 @@
 # Projet-ACL
 
-La liste des tâches du sprint 1 et le diagramme de classes UML se trouve dans le dossier doc.
+- Utilisation du framework Libgdx
+- Build réalisé avec Gradle
 
-Pour compiler le projet, se placer dans le dossier src et faire :
+Le Backlog détaillé (avancement, plannification et fonctionnalités par sprint) ainsi que les critères de validation se trouvent sur :
+https://docs.google.com/spreadsheets/d/1vUd4nksUuOn6h1MtCoCWKBXhhoGiM-zEgJcIjCcz5do/edit#gid=0
 
+Les diagrammes de classes se trouvent dans le dossier doc.
 
-Version 1.0 utilisatable sous Linux / Unix :
+Afin de lancer le projet, placer vous à la racine et, en ligne de commande, faites :
+  - Pour Windows :
+  gradlew desktop:run
+  - Pour OS X/Linux :
+  gradle desktop:run
 
-  javac model/*.java
+Afin de lancer les tests du projet, placer vous à la racine et, en ligne de commande, faites :
+- Pour Windows :
+  gradlew test
+  - Pour OS X/Linux :
+  gradle test
 
-  Puis pour exècuter :
-
-  java model.Game
+Contenu :
+- Les classes principales du projet se trouve dans core/src/main/java.
+- Les tests se trouvent dans core/src/test/java.
+- Les ressources principales se trouvent dans android/assets.

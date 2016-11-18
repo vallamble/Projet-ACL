@@ -17,10 +17,6 @@ public abstract class GameMoveableElement extends GameElement {
 		super(x, y);
 	}
 
-	public float getSpeed() {
-		return speed;
-	}
-
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}

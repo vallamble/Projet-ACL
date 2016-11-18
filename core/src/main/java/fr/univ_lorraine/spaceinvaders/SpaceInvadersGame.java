@@ -8,19 +8,28 @@ import fr.univ_lorraine.spaceinvaders.view.GameScreen;
  */
 public class SpaceInvadersGame extends Game {
 
+	public enum ScreenEnum { GAME_SCREEN }
+
 	GameScreen gameScreen;
-	
-	@Override
-	public void create () {
-		gameScreen = new GameScreen();
-	}
 
 	@Override
-	public void render () {
-        setScreen(gameScreen);
-        super.render();
+	public void create () {
+		gameScreen = new GameScreen(this);
+		setScreen(gameScreen);
 	}
-	
+
+    /**
+     * Permet de changer d'ecran.
+     * @param screen L'ecran a afficher.
+     */
+    public void changeScreen(ScreenEnum screen) {
+        switch(screen) {
+            case GAME_SCREEN :
+                setScreen(gameScreen);
+                break;
+        }
+    }
+
 	@Override
 	public void dispose () {
 		gameScreen = null;

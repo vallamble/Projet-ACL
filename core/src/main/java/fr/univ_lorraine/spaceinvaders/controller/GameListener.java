@@ -21,7 +21,7 @@ public class GameListener implements InputProcessor {
     public void checkHeldKey() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
             ship.turnLeft();
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             ship.turnRight();
     }
 
@@ -48,6 +48,7 @@ public class GameListener implements InputProcessor {
         return false;
     }
 
+    // Mobile
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
@@ -62,6 +63,7 @@ public class GameListener implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
+    // Fin mobile
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
