@@ -1,9 +1,6 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -36,7 +33,7 @@ public class GameScreen extends AbstractScreen {
         super(g);
         world = new World(15f, 20f);
         worldRenderer = new WorldRenderer(world);
-        gameListener = new GameListener(world.getShip());
+        gameListener = new GameListener(world.getPlayer());
         Gdx.input.setInputProcessor(gameListener);
 
         fpsLogger = new FPSLogger();

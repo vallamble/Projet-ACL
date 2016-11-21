@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import fr.univ_lorraine.spaceinvaders.model.Ship;
+import fr.univ_lorraine.spaceinvaders.model.Player;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 /**
@@ -52,8 +52,8 @@ public class WorldRenderer {
     }
 
     private void drawShip() {
-        Ship ship = world.getShip();
-        spriteBatch.draw(TextureFactory.getInstance().getShip(), ship.getPosition().x * ppux, ship.getPosition().y * ppuy, ship.getWidth() * ppux, ship.getHeight() * ppuy);
+        Player player = world.getPlayer();
+        spriteBatch.draw(TextureFactory.getInstance().getShip(), player.getPosition().x * ppux, player.getPosition().y * ppuy, player.getWidth() * ppux, player.getHeight() * ppuy);
     }
 
     public void resize(int width, int height) {

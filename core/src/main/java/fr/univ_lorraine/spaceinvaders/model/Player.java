@@ -3,9 +3,9 @@ package fr.univ_lorraine.spaceinvaders.model;
 /**
  * Classe decrivant le vaisseau du joueur.
  */
-public class Ship extends GameMoveableElement {
+public class Player extends GameMoveableElement {
 
-	public Ship(float x, float y) {
+	public Player(float x, float y) {
 		super(x, y);
 		isMoving = false;
 		speed = 5f;

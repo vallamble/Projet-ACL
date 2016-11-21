@@ -8,14 +8,14 @@ public class World {
 
 	private float width, height;
 
-	Ship ship;
+	Player player;
 
 	public World(float w, float h) {
 		width = w;
 		height = h;
-        ship = new Ship(0, 0);
+        player = new Player(0, 0);
         // On positionne le vaisseau du joueur en bas au milieu du monde
-        ship.setPosition(this.width/2 - ship.getWidth()/2, 0);
+        player.setPosition(this.width/2 - player.getWidth()/2, 0);
 	}
 
     public float getWidth() {
@@ -26,8 +26,8 @@ public class World {
         return height;
     }
 
-    public Ship getShip() {
-        return ship;
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -35,12 +35,12 @@ public class World {
      * @param delta Le temps ecoule depuis le dernier update.
      */
     public void update(float delta) {
-        ship.update(delta);
+        player.update(delta);
         // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
-        if (ship.getPosition().x < 0f)
-            ship.setPosition(0f, ship.getPosition().y);
-        else if (ship.getPosition().x > width - ship.getWidth())
-            ship.setPosition(width - ship.getWidth(), ship.getPosition().y);
+        if (player.getPosition().x < 0f)
+            player.setPosition(0f, player.getPosition().y);
+        else if (player.getPosition().x > width - player.getWidth())
+            player.setPosition(width - player.getWidth(), player.getPosition().y);
     }
 	
 }

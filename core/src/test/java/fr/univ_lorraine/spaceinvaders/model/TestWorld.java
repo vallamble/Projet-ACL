@@ -9,7 +9,7 @@ public class TestWorld {
 
     private World world;
 
-    private Ship ship;
+    private Player player;
 
     private float worldWidth;
 
@@ -22,7 +22,7 @@ public class TestWorld {
         worldWidth = 50f;
         worldHeight = 50f;
         world = new World(worldWidth, worldHeight);
-        ship = world.getShip();
+        player = world.getPlayer();
         delta = 1f;
     }
 
@@ -33,9 +33,9 @@ public class TestWorld {
      */
     @Test
     public void testConstructorShipPositionning() {
-        float posX = world.getWidth()/2 - ship.getWidth()/2;
-        assertEquals(posX, ship.getPosition().x, 0f);
-        assertEquals(0, ship.getPosition().y, 0f);
+        float posX = world.getWidth()/2 - player.getWidth()/2;
+        assertEquals(posX, player.getPosition().x, 0f);
+        assertEquals(0, player.getPosition().y, 0f);
     }
 
     /**
@@ -44,11 +44,11 @@ public class TestWorld {
      */
     @Test
     public void testUpdateShipOutsideOfWorldLeft() {
-        ship.setPosition(0f, 0f);
-        ship.turnLeft();
+        player.setPosition(0f, 0f);
+        player.turnLeft();
         world.update(delta);
-        assertEquals(0f, ship.getPosition().x, 0f);
-        assertEquals(0f, ship.getPosition().y, 0f);
+        assertEquals(0f, player.getPosition().x, 0f);
+        assertEquals(0f, player.getPosition().y, 0f);
     }
 
     /**
@@ -57,11 +57,11 @@ public class TestWorld {
      */
     @Test
     public void testUpdateShipOutsideOfWorldRight() {
-        float posX = world.getWidth() - ship.getWidth();
-        ship.setPosition(posX, 0f);
-        ship.turnRight();
+        float posX = world.getWidth() - player.getWidth();
+        player.setPosition(posX, 0f);
+        player.turnRight();
         world.update(delta);
-        assertEquals(posX, ship.getPosition().x, 0f);
-        assertEquals(0f, ship.getPosition().y, 0f);
+        assertEquals(posX, player.getPosition().x, 0f);
+        assertEquals(0f, player.getPosition().y, 0f);
     }
 }

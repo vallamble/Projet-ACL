@@ -4,14 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-import fr.univ_lorraine.spaceinvaders.model.Ship;
+import fr.univ_lorraine.spaceinvaders.model.Player;
 
 public class GameListener implements InputProcessor {
 
-    private Ship ship;
+    private Player player;
 
-    public GameListener(Ship s) {
-        ship = s;
+    public GameListener(Player s) {
+        player = s;
     }
 
     /**
@@ -20,19 +20,19 @@ public class GameListener implements InputProcessor {
      */
     public void checkHeldKey() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            ship.turnLeft();
+            player.turnLeft();
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            ship.turnRight();
+            player.turnRight();
     }
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.LEFT:
-                ship.turnLeft();
+                player.turnLeft();
                 break;
             case Input.Keys.RIGHT:
-                ship.turnRight();
+                player.turnRight();
                 break;
         }
         return false;
