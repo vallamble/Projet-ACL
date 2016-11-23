@@ -68,8 +68,8 @@ public class TestWorld {
     @Test
     public void testUpdateEnnemiesOutOfWorld() {
         Enemy enemyInsideWorld = new Enemy(0f, 0f, 4f, 3f, 18f);
-        Enemy enemyOutsideWorld1 = new Enemy(-1f, 0f, 4f, 3f, 18f);
-        Enemy enemyOutsideWorld2 = new Enemy(0f, -1f, 4f, 3f, 18f);
+        Enemy enemyOutsideWorld1 = new Enemy(-2f, 0f, 1f, 1f, 18f);
+        Enemy enemyOutsideWorld2 = new Enemy(0f, -2f, 1f, 1f, 18f);
         Enemy enemyOutsideWorld3 = new Enemy(worldWidth+10f, 0f, 4f, 3f, 18f);
         Enemy enemyOutsideWorld4 = new Enemy(0f, worldHeight+10f, 4f, 3f, 18f);
         world.getEnemies().add(enemyOutsideWorld1);
