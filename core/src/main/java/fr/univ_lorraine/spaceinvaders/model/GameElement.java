@@ -10,9 +10,29 @@ public abstract class GameElement {
 	protected float width, height;
 	
 	protected Vector2 position;
-	
-	public GameElement(float x, float y) {
+
+    /**
+     * Figure definissant la zone de collision de cet element.
+     */
+	protected Rectangle boundingBox;
+
+	public GameElement() {
+		position = new Vector2();
+		boundingBox = new Rectangle();
+	}
+
+	public GameElement(float x, float y, float w, float h) {
 		position = new Vector2(x, y);
+        width = w;
+        height = h;
+		boundingBox = new Rectangle(position.x, position.y, width, height);
+	}
+
+    /**
+     * Met a jour la bounding box en fonction de la position.
+     */
+	protected void updateBoundingBox() {
+		boundingBox.setPosition(position.x, position.y);
 	}
 
 	public float getWidth() {
@@ -27,7 +47,25 @@ public abstract class GameElement {
 		return position;
 	}
 
+	public Rectangle getBoundingBox() {
+		return boundingBox;
+	}
+
     public void setPosition(float x, float y) {
-        this.position = new Vector2(x, y);
+        this.position.set(x, y);
+        updateBoundingBox();
     }
+
+	/**
+	 * Permet d'initialiser les attributs d'un element a l'aide d'un autre element.
+	 * Cette methode est utile pour l'utilisation de Pool de l'objet concerne.
+	 * @param gameElement L'autre element.
+	 */
+	public void init(GameElement gameElement) {
+        this.position.set(gameElement.position.x, gameElement.position.y);
+        this.width = gameElement.width;
+        this.height = gameElement.height;
+        boundingBox.set(position.x, position.y, width, height);
+    }
+
 }

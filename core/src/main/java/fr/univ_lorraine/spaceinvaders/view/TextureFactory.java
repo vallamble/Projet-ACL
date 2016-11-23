@@ -2,32 +2,39 @@ package fr.univ_lorraine.spaceinvaders.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-/**
- * Created by alexis on 15/11/2016.
- */
 public class TextureFactory {
 
     private static TextureFactory instance = new TextureFactory();
 
-    private Texture background;
+    private TextureRegion background;
 
-    private Texture ship;
+    private TextureRegion ship;
+
+    private TextureRegion smallEnemyShip;
 
     private TextureFactory() {
-        background = new Texture(Gdx.files.internal("images/stars_background.jpg"));
-        ship = new Texture(Gdx.files.internal("images/spaceship.png"));
+        background = new TextureRegion(new Texture(Gdx.files.internal("images/stars_background.jpg")));
+        ship = new TextureRegion(new Texture(Gdx.files.internal("images/spaceship.png")));
+        smallEnemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/small_enemy_ship.png")));
+        smallEnemyShip.flip(false, true);
     }
 
     public static TextureFactory getInstance() {
         return instance;
     }
 
-    public Texture getBackground() {
+    public TextureRegion getBackground() {
         return background;
     }
 
-    public Texture getShip() {
+    public TextureRegion getPlayer() {
         return ship;
+    }
+
+    public TextureRegion getSmallEnemyShip() {
+        return smallEnemyShip;
     }
 }
