@@ -5,7 +5,7 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public abstract class GameMoveableElement extends GameElement {
 
-	protected enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT};
+	public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT};
 	
 	protected Direction direction;
 	

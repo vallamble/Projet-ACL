@@ -14,6 +14,10 @@ public class TestGameMoveableElement {
     @Before
     public void setUp() {
         gameMoveableElement = new GameMoveableElement(0f, 0f, 3f, 4f, 1f) {
+            @Override
+            public CollisionType getCollisionType() {
+                return null;
+            }
         };          // speed = 1
         gameMoveableElement.setIsMoving(true);
         delta = 1f; // deplacement = delta * speed = 1 * 1 = 1

@@ -99,7 +99,8 @@ public class TestPlayer {
         Enemy e = new Enemy(player.getPosition().x, player.getPosition().y, player.getHeight(), player.getWidth(), 1f);
         assertTrue(player.hasCollision(e));
         assertTrue(e.hasCollision(player));
-        assertFalse(player.handleCollision(e));
+        player.handleCollision(e);
+        assertTrue(player.isDead());
     }
 
 }

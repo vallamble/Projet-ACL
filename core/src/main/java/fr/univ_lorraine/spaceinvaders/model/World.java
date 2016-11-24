@@ -43,18 +43,9 @@ public class World {
 		height = h;
         worldLimits = new Rectangle(0f, 0f, width, height);
 
-        enemies = new ArrayList<Enemy>();
-
-        enemyGenerators = new ArrayList<IEnemyGenerator>();
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 10f);
-        enemyAttributes.setIsMoving(true);
-        enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyGenerators.add(new PeriodicEnemyGenerator(enemyAttributes, 1f));
-
         player = new Player(0f, 0f, 1f, 1.3368f, 5f);
         // On positionne le vaisseau du joueur en bas au milieu du monde
         player.setPosition(this.width/2 - player.getWidth()/2, 0);
-
         PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 0.3f);
         Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         playerShot.setDirection(GameMoveableElement.Direction.UP);
@@ -69,14 +60,16 @@ public class World {
             }
         };
 
+        enemies = new ArrayList<Enemy>();
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
                 return new Enemy();
             }
         };
-        worldLimits = new Rectangle(0f, 0f, width, height);
-	}
+
+        enemyGenerators = new ArrayList<IEnemyGenerator>();
+    }
 
     /**
      * Determine si un element est totalement sorti du monde.
@@ -112,6 +105,7 @@ public class World {
     }
 
     public boolean getEndGame() {return endGame;}
+
     /**
      * Permet d'obtenir un ennemi depuis le Pool.
      * @return Un nouvel ennemi provenant du Pool.
@@ -120,6 +114,60 @@ public class World {
         return enemyPool.obtain();
     }
 
+    /**
+     * Permet d'obtenir un tir depuis le Pool.
+     * @return Un nouveau tir provenant du Pool.
+     */
+    public Shot obtainShotFromPool() {
+        return shotPool.obtain();
+    }
+
+    public void addEnemyGenerator(IEnemyGenerator enemyGenerator) {
+        enemyGenerators.add(enemyGenerator);
+    }
+
+    /**
+     * On met a jour les differents elements du monde.
+     * @param delta Le temps ecoule depuis le dernier update.
+     */
+    public void update(float delta) {
+        // Gestion du joueur
+        player.update(delta);
+        // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
+        if (player.getPosition().x < 0f)
+            player.setPosition(0f, player.getPosition().y);
+        else if (player.getPosition().x > width - player.getWidth())
+            player.setPosition(width - player.getWidth(), player.getPosition().y);
+
+        // Gestion des ennemis
+        for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
+            Enemy enemy = iterator.next();
+            enemy.update(delta);
+
+            if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
+                //System.out.println("out");
+                enemyPool.free(enemy);  // on le remet dans le pool
+                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+
+        // Gestion des tirs du joueur
+        for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext();) {
+            Shot shot = iterator.next();
+            shot.update(delta);
+            if (outOfWorld(shot)) {    // Si l'ennemi sort du monde,
+                //System.out.println("out");
+                shotPool.free(shot);  // on le remet dans le pool
+                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+
+        // Eventuellement, on genere des ennemis
+        for (IEnemyGenerator enemyGenerator : enemyGenerators)
+            enemyGenerator.generateEnemy(this, delta);
+
+        checkCollisions();
+    }
 
     public void checkCollisions()
     {
@@ -171,57 +219,6 @@ public class World {
                 j++;
             }
         }
-    }
-
-    /**
-     * Permet d'obtenir un tir depuis le Pool.
-     * @return Un nouveau tir provenant du Pool.
-     */
-    public Shot obtainShotFromPool() {
-        return shotPool.obtain();
-    }
-
-    /**
-     * On met a jour les differents elements du monde.
-     * @param delta Le temps ecoule depuis le dernier update.
-     */
-    public void update(float delta) {
-        // Gestion du joueur
-        player.update(delta);
-        // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
-        if (player.getPosition().x < 0f)
-            player.setPosition(0f, player.getPosition().y);
-        else if (player.getPosition().x > width - player.getWidth())
-            player.setPosition(width - player.getWidth(), player.getPosition().y);
-
-        // Gestion des ennemis
-        for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
-            Enemy enemy = iterator.next();
-            enemy.update(delta);
-
-            if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
-                //System.out.println("out");
-                enemyPool.free(enemy);  // on le remet dans le pool
-                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
-            }
-        }
-
-        // Gestion des tirs du joueur
-        for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext();) {
-            Shot shot = iterator.next();
-            shot.update(delta);
-            if (outOfWorld(shot)) {    // Si l'ennemi sort du monde,
-                //System.out.println("out");
-                shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
-            }
-        }
-
-        // Eventuellement, on genere des ennemis
-        for (IEnemyGenerator enemyGenerator : enemyGenerators)
-            enemyGenerator.generateEnemy(this, delta);
-
-        checkCollisions();
     }
 
 }
