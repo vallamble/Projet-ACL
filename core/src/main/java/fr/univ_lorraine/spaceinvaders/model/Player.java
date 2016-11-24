@@ -75,9 +75,9 @@ public class Player extends GameMoveableElement {
             case ENEMY:
                 return false;
             case SHOT:
-                /*Shot s = (Shot) element;
-                this.life -= Shot.getDamage();
-                if (this.life <= 0)*/
+                Shot s = (Shot) element;
+                this.life -= s.getDamages();
+                if (this.life <= 0)
                     return false;
         }
         return true;

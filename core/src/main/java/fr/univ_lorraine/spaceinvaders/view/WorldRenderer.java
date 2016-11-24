@@ -53,7 +53,7 @@ public class WorldRenderer {
         viewport = new FitViewport(world.getWidth() * ppux, world.getHeight() * ppuy, camera);
         viewport.apply();
         camera.position.set(world.getWidth() * ppux / 2, world.getHeight() * ppuy / 2, 0);
-        showBoundingBox = false;
+        showBoundingBox = true;
     }
 
     /**
@@ -74,6 +74,7 @@ public class WorldRenderer {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             drawPlayerBoundingBox();
             drawEnemiesBoundingBox();
+            drawShotsBoundingBox();
             shapeRenderer.end();
         }
     }
@@ -113,6 +114,11 @@ public class WorldRenderer {
     private void drawEnemiesBoundingBox() {
         for (Enemy enemy : world.getEnemies())
             drawGameElementBoundingBox(enemy);
+    }
+
+    private void drawShotsBoundingBox() {
+        for (Shot shot: world.getPlayerShots())
+            drawGameElementBoundingBox(shot);
     }
 
     public void resize(int width, int height) {

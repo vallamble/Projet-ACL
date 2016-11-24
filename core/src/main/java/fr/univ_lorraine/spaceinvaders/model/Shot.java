@@ -11,16 +11,22 @@ public class Shot extends GameMoveableElement implements Pool.Poolable {
 
     public Shot() {
         super();
+        collision = CollisionType.SHOT;
     }
 
     public Shot(float x, float y, float w, float h, float s, int dam) {
         super(x, y, w, h, s);
         damages = dam;
+        collision = CollisionType.SHOT;
     }
 
     public void init(Shot shot) {
         super.init(shot);
-        damages = 0;
+        damages = shot.damages;
+    }
+
+    public int getDamages() {
+        return damages;
     }
 
     /**
@@ -34,5 +40,18 @@ public class Shot extends GameMoveableElement implements Pool.Poolable {
         updateBoundingBox();
         this.isMoving = false;
         this.direction = null;
+    }
+
+    public boolean handleCollision(GameElement element)
+    {
+        switch (element.collision) {
+            case ENEMY:
+                return false;
+            case SHOT:
+                return false;
+            case PLAYER:
+                return true;
+        }
+        return true;
     }
 }

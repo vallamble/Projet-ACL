@@ -19,6 +19,7 @@ public class PlayerShooterWithCooldown extends SimpleShooterWithCoolDown {
                 Shot shot = world.obtainShotFromPool();
                 shot = shooterBehavior.generateShotWithShift(shot);
                 shot.getPosition().add(position);
+                shot.updateBoundingBox();
                 world.getPlayerShots().add(shot);
             }
         }
