@@ -9,7 +9,7 @@ public abstract class SimpleShooterWithCoolDown extends AbstractShooter {
 
     protected float cooldown;
 
-    protected float timeSinceLastShot;
+    protected float timeStillInCooldown;
 
     public SimpleShooterWithCoolDown(World w, float cd) {
         super(w);
@@ -18,10 +18,11 @@ public abstract class SimpleShooterWithCoolDown extends AbstractShooter {
 
     @Override
     public void update(float delta) {
-        timeSinceLastShot =+ delta;
+        if (timeStillInCooldown > 0)
+            timeStillInCooldown =- delta;
     }
 
     protected boolean isInCooldown() {
-        return timeSinceLastShot >= cooldown;
+        return timeStillInCooldown > 0;
     }
 }

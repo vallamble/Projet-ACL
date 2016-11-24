@@ -14,12 +14,13 @@ public class PlayerShooterWithCooldown extends SimpleShooterWithCoolDown {
     @Override
     public void shoot(Vector2 position) {
         if (!isInCooldown()) {
-            timeSinceLastShot = 0f;
+            timeStillInCooldown = cooldown;
             for (ShooterBehavior shooterBehavior : shooterBehaviors) {
                 Shot shot = world.obtainShotFromPool();
                 shot = shooterBehavior.generateShotWithShift(shot);
                 shot.getPosition().add(position);
                 shot.updateBoundingBox();
+                shot.setIsMoving(true);
                 world.getPlayerShots().add(shot);
             }
         }

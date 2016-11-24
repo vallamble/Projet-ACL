@@ -29,6 +29,7 @@ public class Enemy extends GameMoveableElement implements Pool.Poolable {
         this.isMoving = false;
         this.direction = null;
     }
+
     public boolean handleCollision(GameElement element) {
         switch (element.collision) {
             case PLAYER:

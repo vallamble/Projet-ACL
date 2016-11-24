@@ -53,7 +53,7 @@ public class WorldRenderer {
         viewport = new FitViewport(world.getWidth() * ppux, world.getHeight() * ppuy, camera);
         viewport.apply();
         camera.position.set(world.getWidth() * ppux / 2, world.getHeight() * ppuy / 2, 0);
-        showBoundingBox = true;
+        showBoundingBox = false;
     }
 
     /**
