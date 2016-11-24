@@ -5,11 +5,17 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Classe abstraite definissant un element du jeu appartenant au monde.
  */
-public abstract class GameElement {
+public abstract class GameElement implements Collidable {
 
 	protected float width, height;
 	
 	protected Vector2 position;
+
+	public enum CollisionType {PLAYER, ENEMY, SHOT};
+
+	protected CollisionType collision;
+
+	protected int life = 10;
 
     /**
      * Figure definissant la zone de collision de cet element.
@@ -56,6 +62,13 @@ public abstract class GameElement {
         updateBoundingBox();
     }
 
+	public boolean hasCollision(GameElement element)
+	{
+		if (element != null && this.getBoundingBox().intersects(element.getBoundingBox())) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Permet d'initialiser les attributs d'un element a l'aide d'un autre element.
 	 * Cette methode est utile pour l'utilisation de Pool de l'objet concerne.

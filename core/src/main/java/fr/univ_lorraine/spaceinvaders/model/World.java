@@ -20,6 +20,8 @@ public class World {
 
     private List<IEnemyGenerator> enemyGenerators;
 
+    private List<Shot> playerShots;
+
     /**
      * Rectangle representant les limites du monde.
      */
@@ -30,7 +32,12 @@ public class World {
      * Evite de faire un new a chaque fois que l'on a besoin d'un ennemi.
      * pool.free(objet) permet de remettre l'objet dans le pool et ainsi de le reutiliser par la suite.
      */
+
     private final Pool<Enemy> enemyPool;
+
+    private final Pool<Shot> shotPool;
+
+    private boolean endGame = false;
 
     public World(float w, float h) {
 		width = w;
@@ -50,6 +57,15 @@ public class World {
                 return new Enemy();
             }
         };
+
+        playerShots = new ArrayList<Shot>();
+        shotPool = new Pool<Enemy>() {
+            @Override
+            protected Enemy newObject() {
+                return new Shot();
+            }
+        };
+
         worldLimits = new Rectangle(0f, 0f, width, height);
 	}
 
@@ -82,6 +98,7 @@ public class World {
         return enemyGenerators;
     }
 
+    public boolean getEndGame() {return endGame;}
     /**
      * Permet d'obtenir un ennemi depuis le Pool.
      * @return Un nouvel ennemi provenant du Pool.
@@ -90,10 +107,61 @@ public class World {
         return enemyPool.obtain();
     }
 
+
+    public void checkCollisions()
+    {
+        int i = 0;
+        boolean playerReachable = true;
+        while(i < enemies.size() && playerReachable)
+        {
+            Enemy e = enemies.get(i);
+            if (e.getPosition().y > player.getPosition().y + player.getHeight()) {
+                playerReachable = false;
+            } else {
+                if (player.hasCollision(e)) {
+                    e.handleCollision(player);
+                    if (!player.handleCollision(e))
+                    {
+                        endGame = true;
+                    }
+                }
+            }
+            i++;
+        }
+        for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
+            Enemy enemy = iterator.next();
+            int j = 0;
+            boolean enemyReachable = true;
+            while(j < playerShots.size() && enemyReachable)
+            {
+                Shot s = playerShots.get(i);
+                if (s.getPosition().y + s.getHeight() < enemy.getPosition().y) {
+                    playerReachable = false;
+                } else {
+                    if (enemy.hasCollision(s)) {
+                        if (!s.handleCollision(enemy))
+                        {
+                            shotPool.free(s);  // on le remet dans le pool
+                            playerShots.remove(s);      // et on l'enleve de la liste d'ennemis actifs
+
+                        }
+                        if (!enemy.handleCollision(s))
+                        {
+                            enemyPool.free(enemy);  // on le remet dans le pool
+                            iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+                        }
+                    }
+                }
+                j++;
+            }
+        }
+    }
+
     /**
      * On met a jour les differents elements du monde.
      * @param delta Le temps ecoule depuis le dernier update.
      */
+
     public void update(float delta) {
         // Gestion du joueur
         player.update(delta);
@@ -113,6 +181,16 @@ public class World {
                 iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
             }
         }
+        for (Iterator<Shot> iterator =playersShots.iterator(); iterator.hasNext();) {
+            Shot shot = iterator.next();
+            shot.update(delta);
+            if (outOfWorld(shot)) {    // Si l'ennemi sort du monde,
+                //System.out.println("out");
+                shotPool.free(shot);  // on le remet dans le pool
+                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+        checkCollisions();
 
         // Eventuellement, on genere des ennemis
         for (IEnemyGenerator enemyGenerator : enemyGenerators)
