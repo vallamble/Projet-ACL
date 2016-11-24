@@ -5,7 +5,7 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public interface Collidable {
 
-    public boolean handleCollision(GameElement element);
+    public void handleCollision(GameElement element);
 
     public boolean hasCollision(GameElement element);
 

@@ -40,8 +40,8 @@ public class Shot extends GameMoveableElement implements Pool.Poolable {
         this.direction = null;
     }
 
-    public void handleCollision(GameElement element)
-    {
+    @Override
+    public void handleCollision(GameElement element) {
         switch (element.getCollisionType()) {
             case SHOT:
                 break;

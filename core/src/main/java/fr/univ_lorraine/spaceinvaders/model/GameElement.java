@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Classe abstraite definissant un element du jeu appartenant au monde.
  */
-public abstract class GameElement {
+public abstract class GameElement implements Collidable {
 
 	protected float width, height;
 	
@@ -66,6 +66,7 @@ public abstract class GameElement {
         updateBoundingBox();
     }
 
+    @Override
 	public boolean hasCollision(GameElement element) {
 		if (element != null && boundingBox != null && element.getBoundingBox() != null) {
 			return this.getBoundingBox().overlaps(element.getBoundingBox());

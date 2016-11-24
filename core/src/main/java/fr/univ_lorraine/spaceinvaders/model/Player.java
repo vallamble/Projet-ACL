@@ -68,6 +68,7 @@ public class Player extends GameMoveableElement {
             shooter.shoot(this.position);
     }
 
+    @Override
     public void handleCollision(GameElement element) {
         switch (element.getCollisionType()) {
             case ENEMY:

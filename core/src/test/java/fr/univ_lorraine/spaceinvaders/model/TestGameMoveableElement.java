@@ -15,6 +15,10 @@ public class TestGameMoveableElement {
     public void setUp() {
         gameMoveableElement = new GameMoveableElement(0f, 0f, 3f, 4f, 1f) {
             @Override
+            public void handleCollision(GameElement element) {
+            }
+
+            @Override
             public CollisionType getCollisionType() {
                 return null;
             }
