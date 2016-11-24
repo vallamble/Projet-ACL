@@ -19,6 +19,8 @@ public class GameListener implements InputProcessor {
      * Necessaire car la methode keyDown n'est appelee qu'une seule fois meme lors du maintien d'une touche.
      */
     public void checkHeldKey() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            world.getPlayer().shoot();
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
             world.getPlayer().turnLeft();
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
@@ -33,6 +35,9 @@ public class GameListener implements InputProcessor {
                 break;
             case Input.Keys.RIGHT:
                 world.getPlayer().turnRight();
+                break;
+            case Input.Keys.SPACE:
+                world.getPlayer().shoot();
                 break;
         }
         return false;

@@ -18,6 +18,8 @@ public class World {
 
     private List<Enemy> enemies;
 
+    private List<Shot> playerShots;
+
     private List<IEnemyGenerator> enemyGenerators;
 
     /**
@@ -32,26 +34,45 @@ public class World {
      */
     private final Pool<Enemy> enemyPool;
 
+    private final Pool<Shot> shotPool;
+
     public World(float w, float h) {
 		width = w;
 		height = h;
+        worldLimits = new Rectangle(0f, 0f, width, height);
+
         enemies = new ArrayList<Enemy>();
+
         enemyGenerators = new ArrayList<IEnemyGenerator>();
         Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 3f);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyGenerators.add(new PeriodicEnemyGenerator(enemyAttributes, 1.5f));
+        enemyGenerators.add(new PeriodicEnemyGenerator(enemyAttributes, 5f));
+
         player = new Player(0f, 0f, 1f, 1.3368f, 5f);
         // On positionne le vaisseau du joueur en bas au milieu du monde
         player.setPosition(this.width/2 - player.getWidth()/2, 0);
+
+        PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 1f);
+        Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 3f, 1);
+        playerShooter.addShooterBehavior(new ShooterBehavior(playerShot, player.getWidth()/2, player.getHeight()));
+        player.setShooter(playerShooter);
+
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
                 return new Enemy();
             }
         };
-        worldLimits = new Rectangle(0f, 0f, width, height);
-	}
+
+        playerShots = new ArrayList<Shot>();
+        shotPool = new Pool<Shot>() {
+            @Override
+            protected Shot newObject() {
+                return new Shot();
+            }
+        };
+    }
 
     /**
      * Determine si un element est totalement sorti du monde.
@@ -78,6 +99,10 @@ public class World {
         return enemies;
     }
 
+    public List<Shot> getPlayerShots() {
+        return playerShots;
+    }
+
     public List<IEnemyGenerator> getEnemyGenerators() {
         return enemyGenerators;
     }
@@ -88,6 +113,14 @@ public class World {
      */
     public Enemy obtainEnemyFromPool() {
         return enemyPool.obtain();
+    }
+
+    /**
+     * Permet d'obtenir un tir depuis le Pool.
+     * @return Un nouveau tir provenant du Pool.
+     */
+    public Shot obtainShotFromPool() {
+        return shotPool.obtain();
     }
 
     /**
@@ -107,6 +140,7 @@ public class World {
         for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
             Enemy enemy = iterator.next();
             enemy.update(delta);
+
             if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
                 //System.out.println("out");
                 enemyPool.free(enemy);  // on le remet dans le pool
@@ -114,7 +148,7 @@ public class World {
             }
         }
 
-        // Eventuellement, on genere des ennemis
+            // Eventuellement, on genere des ennemis
         for (IEnemyGenerator enemyGenerator : enemyGenerators)
             enemyGenerator.generateEnemy(this, delta);
     }

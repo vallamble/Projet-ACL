@@ -11,6 +11,8 @@ public abstract class GameElement {
 	
 	protected Vector2 position;
 
+	protected int life;
+
     /**
      * Figure definissant la zone de collision de cet element.
      */
@@ -19,6 +21,7 @@ public abstract class GameElement {
 	public GameElement() {
 		position = new Vector2();
 		boundingBox = new Rectangle();
+		life = 1;
 	}
 
 	public GameElement(float x, float y, float w, float h) {
@@ -26,6 +29,7 @@ public abstract class GameElement {
         width = w;
         height = h;
 		boundingBox = new Rectangle(position.x, position.y, width, height);
+		life = 1;
 	}
 
     /**
@@ -68,4 +72,7 @@ public abstract class GameElement {
         boundingBox.set(position.x, position.y, width, height);
     }
 
+    public boolean isDead() {
+        return life <= 0;
+    }
 }

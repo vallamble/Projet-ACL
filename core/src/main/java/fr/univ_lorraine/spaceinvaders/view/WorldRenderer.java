@@ -12,6 +12,7 @@ import java.util.List;
 
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.GameElement;
+import fr.univ_lorraine.spaceinvaders.model.Shot;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 /**
@@ -66,6 +67,7 @@ public class WorldRenderer {
         drawBackground();
         drawPlayer();
         drawEnemies();
+        drawPlayerShoots();
         spriteBatch.end();
         if (showBoundingBox) {
             shapeRenderer.setProjectionMatrix(camera.combined);
@@ -93,9 +95,14 @@ public class WorldRenderer {
     }
 
     private void drawEnemies() {
-        List<Enemy> enemies = world.getEnemies();
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : world.getEnemies()) {
             drawGameElement(TextureFactory.getInstance().getSmallEnemyShip(), enemy);
+        }
+    }
+
+    private void drawPlayerShoots() {
+        for (Shot shot : world.getPlayerShots()) {
+            drawGameElement(TextureFactory.getInstance().getSmallEnemyShip(), shot);
         }
     }
 

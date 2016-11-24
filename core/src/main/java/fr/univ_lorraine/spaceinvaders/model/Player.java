@@ -5,6 +5,8 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public class Player extends GameMoveableElement {
 
+    private IShooter shooter;
+
     public Player() {
         super();
         isMoving = false;
@@ -14,6 +16,10 @@ public class Player extends GameMoveableElement {
 		super(x, y, w, h, s);
         isMoving = false;
 	}
+
+    public void setShooter(IShooter s) {
+        shooter = s;
+    }
 
     /**
      * Change la direction du vaisseau à gauche et le met en mouvement.
@@ -51,5 +57,13 @@ public class Player extends GameMoveableElement {
             updateBoundingBox();
         }
         isMoving = false;   // On stoppe le mouvement du vaisseau apres l'avoir deplace
+
+        if (shooter != null)
+            shooter.update(delta);
+    }
+
+    public void shoot() {
+        if (shooter != null)
+            shooter.shoot(this.position);
     }
 }
