@@ -50,12 +50,15 @@ public class GameScreen extends AbstractScreen {
         gameListener.checkHeldKey();
 
         world.update(delta);         // On met a jour le monde
+
         worldRenderer.render(delta); // et on l'affiche
         //Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // On affiche les fps si necessaire
         if (showFPS)
             fpsLogger.log();
+        if (world.getEndGame())
+            this.dispose();
     }
 
     @Override

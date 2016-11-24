@@ -9,10 +9,12 @@ public class Enemy extends GameMoveableElement implements Pool.Poolable {
 
     public Enemy() {
         super();
+        collision = CollisionType.ENEMY;
     }
 
     public Enemy(float x, float y, float w, float h, float s) {
         super(x, y, w, h, s);
+        collision = CollisionType.ENEMY;
     }
 
     /**
@@ -26,5 +28,17 @@ public class Enemy extends GameMoveableElement implements Pool.Poolable {
         updateBoundingBox();
         this.isMoving = false;
         this.direction = null;
+    }
+    public boolean handleCollision(GameElement element) {
+        switch (element.collision) {
+            case PLAYER:
+                return false;
+            case SHOT:
+                /*Shot s = (Shot) element;
+                this.life -= Shot.getDamage();
+                if (this.life <= 0)*/
+                    return false;
+        }
+        return true;
     }
 }
