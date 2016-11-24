@@ -5,7 +5,7 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public class Player extends GameMoveableElement {
 
-    private IShooter shooter;
+    private AbstractShooter shooter;
 
     public Player() {
         super();
@@ -19,7 +19,7 @@ public class Player extends GameMoveableElement {
         collision = CollisionType.PLAYER;
 	}
 
-    public void setShooter(IShooter s) {
+    public void setShooter(AbstractShooter s) {
         shooter = s;
     }
 
@@ -60,6 +60,7 @@ public class Player extends GameMoveableElement {
         }
         isMoving = false;   // On stoppe le mouvement du vaisseau apres l'avoir deplace
 
+        // On met a jour le shooter
         if (shooter != null)
             shooter.update(delta);
     }

@@ -58,7 +58,7 @@ public class World {
         PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 1f);
         Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 3f, 1);
         playerShot.setDirection(GameMoveableElement.Direction.UP);
-        playerShooter.addShooterBehavior(new ShooterBehavior(playerShot, player.getWidth()/2, player.getHeight()));
+        playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
         player.setShooter(playerShooter);
 
         playerShots = new ArrayList<Shot>();
