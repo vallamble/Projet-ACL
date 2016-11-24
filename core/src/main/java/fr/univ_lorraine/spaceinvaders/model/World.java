@@ -55,8 +55,8 @@ public class World {
         // On positionne le vaisseau du joueur en bas au milieu du monde
         player.setPosition(this.width/2 - player.getWidth()/2, 0);
 
-        PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 1f);
-        Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 3f, 1);
+        PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 0.3f);
+        Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         playerShot.setDirection(GameMoveableElement.Direction.UP);
         playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
         player.setShooter(playerShooter);
@@ -132,8 +132,9 @@ public class World {
                 playerReachable = false;
             } else {
                 if (player.hasCollision(e)) {
+                    player.handleCollision(e);
                     e.handleCollision(player);
-                    if (!player.handleCollision(e))
+                    if (player.isDead())
                     {
                         endGame = true;
                     }
@@ -152,16 +153,16 @@ public class World {
                     playerReachable = false;
                 } else {
                     if (enemy.hasCollision(s)) {
-                        if (!s.handleCollision(enemy))
+                        s.handleCollision(enemy);
+                        enemy.handleCollision(s);
+                        if (s.isDead())
                         {
-                            shotPool.free(s);  // on le remet dans le pool
-                            playerShots.remove(s);      // et on l'enleve de la liste d'ennemis actifs
+                            shotPool.free(s);       // on le remet dans le pool
+                            playerShots.remove(s);  // et on l'enleve de la liste des tirs actifs
 
                         }
-                        System.out.print("colli");
-                        if (!enemy.handleCollision(s))
+                        if (enemy.isDead())
                         {
-                            System.out.print("mort");
                             enemyPool.free(enemy);  // on le remet dans le pool
                             iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
                         }

@@ -14,6 +14,10 @@ public class GameListener implements InputProcessor {
         world = w;
     }
 
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
     /**
      * On verifie si certaines touches du clavier sont maintenues.
      * Necessaire car la methode keyDown n'est appelee qu'une seule fois meme lors du maintien d'une touche.
@@ -79,4 +83,5 @@ public class GameListener implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

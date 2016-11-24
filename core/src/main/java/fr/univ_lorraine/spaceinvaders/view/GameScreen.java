@@ -37,7 +37,13 @@ public class GameScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(gameListener);
 
         fpsLogger = new FPSLogger();
-        showFPS = true;
+        showFPS = false;
+    }
+
+    public void resetGame() {
+        world = new World(15f, 20f);
+        worldRenderer.setWorld(world);
+        gameListener.setWorld(world);
     }
 
     @Override
@@ -52,13 +58,16 @@ public class GameScreen extends AbstractScreen {
         world.update(delta);         // On met a jour le monde
 
         worldRenderer.render(delta); // et on l'affiche
-        //Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        // Si le jeu est termine, on le reinitialise
+        if (world.getEndGame())
+            resetGame();
 
         // On affiche les fps si necessaire
         if (showFPS)
             fpsLogger.log();
-        if (world.getEndGame())
-            this.dispose();
     }
 
     @Override

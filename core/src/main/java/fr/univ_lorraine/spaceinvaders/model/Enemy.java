@@ -9,12 +9,10 @@ public class Enemy extends GameMoveableElement implements Pool.Poolable {
 
     public Enemy() {
         super();
-        collision = CollisionType.ENEMY;
     }
 
     public Enemy(float x, float y, float w, float h, float s) {
         super(x, y, w, h, s);
-        collision = CollisionType.ENEMY;
     }
 
     /**
@@ -30,16 +28,20 @@ public class Enemy extends GameMoveableElement implements Pool.Poolable {
         this.direction = null;
     }
 
-    public boolean handleCollision(GameElement element) {
-        switch (element.collision) {
+    public void handleCollision(GameElement element) {
+        switch (element.getCollisionType()) {
             case PLAYER:
-                return false;
+                this.life = 0;
+                break;
             case SHOT:
                 Shot s = (Shot) element;
                 this.life -= s.getDamages();
-                if (this.life <= 0)
-                    return false;
+                break;
         }
-        return true;
+    }
+
+    @Override
+    public CollisionType getCollisionType() {
+        return CollisionType.ENEMY;
     }
 }

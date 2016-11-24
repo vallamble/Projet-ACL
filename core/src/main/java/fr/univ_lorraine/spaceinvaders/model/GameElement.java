@@ -15,8 +15,6 @@ public abstract class GameElement {
 
 	public enum CollisionType {PLAYER, ENEMY, SHOT};
 
-	protected CollisionType collision;
-
     /**
      * Figure definissant la zone de collision de cet element.
      */
@@ -59,18 +57,22 @@ public abstract class GameElement {
 		return boundingBox;
 	}
 
-    public void setPosition(float x, float y) {
+	public boolean isDead() {
+		return life <= 0;
+	}
+
+	public void setPosition(float x, float y) {
         this.position.set(x, y);
         updateBoundingBox();
     }
 
-	public boolean hasCollision(GameElement element)
-	{
-		if (element != null) {
+	public boolean hasCollision(GameElement element) {
+		if (element != null && boundingBox != null && element.getBoundingBox() != null) {
 			return this.getBoundingBox().overlaps(element.getBoundingBox());
 		}
 		return false;
 	}
+
 	/**
 	 * Permet d'initialiser les attributs d'un element a l'aide d'un autre element.
 	 * Cette methode est utile pour l'utilisation de Pool de l'objet concerne.
@@ -83,7 +85,6 @@ public abstract class GameElement {
         boundingBox.set(position.x, position.y, width, height);
     }
 
-    public boolean isDead() {
-        return life <= 0;
-    }
+    public abstract CollisionType getCollisionType();
+
 }

@@ -56,6 +56,10 @@ public class WorldRenderer {
         showBoundingBox = false;
     }
 
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
     /**
      * Affiche le monde.
      * Est appelee par gameScreen.render(delta).
@@ -124,4 +128,5 @@ public class WorldRenderer {
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
 }

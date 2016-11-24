@@ -10,13 +10,11 @@ public class Player extends GameMoveableElement {
     public Player() {
         super();
         isMoving = false;
-        collision = CollisionType.PLAYER;
     }
 
 	public Player(float x, float y, float w, float h, float s) {
 		super(x, y, w, h, s);
         isMoving = false;
-        collision = CollisionType.PLAYER;
 	}
 
     public void setShooter(AbstractShooter s) {
@@ -70,17 +68,20 @@ public class Player extends GameMoveableElement {
             shooter.shoot(this.position);
     }
 
-    public boolean handleCollision(GameElement element)
-    {
-        switch (element.collision) {
+    public void handleCollision(GameElement element) {
+        switch (element.getCollisionType()) {
             case ENEMY:
-                return false;
+                this.life = 0;
+                break;
             case SHOT:
                 Shot s = (Shot) element;
                 this.life -= s.getDamages();
-                if (this.life <= 0)
-                    return false;
+                break;
         }
-        return true;
+    }
+
+    @Override
+    public CollisionType getCollisionType() {
+        return CollisionType.PLAYER;
     }
 }
