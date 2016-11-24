@@ -78,4 +78,28 @@ public class TestPlayer {
         }
     }
 
+    // On teste que le vaisseau ne détecte pas de collision avec un objet vide
+    @Test
+    public void testHasNoCollisionWithNullObject() {
+        Enemy e = null;
+        assertFalse(player.hasCollision(e));
+    }
+
+    // On teste que le vaisseau ne détecte pas de collision si non nécessaire
+    @Test
+    public void testHasNoCollisionWithEnemy() {
+        Enemy e = new Enemy(player.getPosition().x, player.getPosition().y + player.getHeight()+5, player.getHeight(), player.getWidth(), 1f);
+        assertFalse(player.hasCollision(e));
+        assertFalse(e.hasCollision(player));
+    }
+
+    //On teste que le vaisseau entre bien en collision avec un enemmi
+    @Test
+    public void testHasCollisionWithEnemy() {
+        Enemy e = new Enemy(player.getPosition().x, player.getPosition().y, player.getHeight(), player.getWidth(), 1f);
+        assertTrue(player.hasCollision(e));
+        assertTrue(e.hasCollision(player));
+        assertFalse(player.handleCollision(e));
+    }
+
 }
