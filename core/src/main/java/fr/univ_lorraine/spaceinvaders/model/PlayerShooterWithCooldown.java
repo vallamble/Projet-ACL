@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Classe generant des tirs pour le joueur avec un temps de recharge.
  */
-public class PlayerShooterWithCooldown extends AbstractShooterWithCoolDown {
+public class PlayerShooterWithCooldown extends AbstractShooterWithCooldown {
 
     public PlayerShooterWithCooldown(World w, float cd) {
         super(w, cd);
@@ -24,8 +24,4 @@ public class PlayerShooterWithCooldown extends AbstractShooterWithCoolDown {
         }
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-    }
 }

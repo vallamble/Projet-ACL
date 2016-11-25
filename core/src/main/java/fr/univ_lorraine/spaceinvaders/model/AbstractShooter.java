@@ -21,8 +21,8 @@ public abstract class AbstractShooter {
         shotsCharacteristics = new ArrayList<ShotCharacteristics>();
     }
 
-    public void addShotCharacteristics(ShotCharacteristics sb) {
-        shotsCharacteristics.add(sb);
+    public void addShotCharacteristics(ShotCharacteristics sc) {
+        shotsCharacteristics.add(sc);
     }
 
     /**

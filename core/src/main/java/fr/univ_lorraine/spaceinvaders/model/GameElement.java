@@ -13,8 +13,6 @@ public abstract class GameElement implements Collidable {
 
 	protected int life;
 
-	public enum CollisionType {PLAYER, ENEMY, SHOT};
-
     /**
      * Figure definissant la zone de collision de cet element.
      */
@@ -86,7 +84,5 @@ public abstract class GameElement implements Collidable {
         boundingBox.set(position.x, position.y, width, height);
 		this.life = 1;
 	}
-
-    public abstract CollisionType getCollisionType();
 
 }

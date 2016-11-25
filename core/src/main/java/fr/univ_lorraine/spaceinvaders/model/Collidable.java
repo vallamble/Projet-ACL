@@ -5,6 +5,10 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public interface Collidable {
 
+    public enum CollisionType {PLAYER, ENEMY, SHOT};
+
+    public CollisionType getCollisionType();
+
     public void handleCollision(GameElement element);
 
     public boolean hasCollision(GameElement element);

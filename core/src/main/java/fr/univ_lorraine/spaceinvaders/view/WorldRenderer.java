@@ -22,8 +22,6 @@ public class WorldRenderer {
 
     private World world;
 
-    private float stateTime;
-
     private SpriteBatch spriteBatch;
 
     private ShapeRenderer shapeRenderer;
@@ -44,7 +42,6 @@ public class WorldRenderer {
 
     public WorldRenderer(World w) {
         world = w;
-        stateTime = 0f;
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
@@ -65,7 +62,6 @@ public class WorldRenderer {
      * Est appelee par gameScreen.render(delta).
      */
     public void render(float delta) {
-        stateTime += delta;
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         drawBackground();

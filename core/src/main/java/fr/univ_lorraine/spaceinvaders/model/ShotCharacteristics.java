@@ -13,15 +13,15 @@ public class ShotCharacteristics {
     /**
      * Le decalage (changement de position) du tir.
      */
-    private Vector2 shiftPosition;
+    private Vector2 positionShift;
 
-    public ShotCharacteristics(Shot s, float x, float y) {
+    public ShotCharacteristics(Shot s, float shiftX, float shiftY) {
         shotAttributes = s;
-        shiftPosition = new Vector2(x, y);
+        positionShift = new Vector2(shiftX, shiftY);
     }
 
     public void applyShotCharacteristics(Shot shot) {
         shot.init(shotAttributes);
-        shot.getPosition().add(shiftPosition);
+        shot.getPosition().add(positionShift);
     }
 }
