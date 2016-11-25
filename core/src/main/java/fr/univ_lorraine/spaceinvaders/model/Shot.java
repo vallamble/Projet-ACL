@@ -35,6 +35,7 @@ public class Shot extends GameMoveableElement implements Pool.Poolable {
         this.position.set(0f, 0f);
         this.height = 0f;
         this.width = 0f;
+        this.life = 0;
         updateBoundingBox();
         this.isMoving = false;
         this.direction = null;

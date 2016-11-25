@@ -155,10 +155,10 @@ public class World {
         for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext();) {
             Shot shot = iterator.next();
             shot.update(delta);
-            if (outOfWorld(shot)) {    // Si l'ennemi sort du monde,
+            if (outOfWorld(shot)) {    // Si le tir sort du monde,
                 //System.out.println("out");
                 shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
             }
         }
 
@@ -169,54 +169,38 @@ public class World {
         checkCollisions();
     }
 
-    public void checkCollisions()
-    {
-        int i = 0;
-        boolean playerReachable = true;
-        while(i < enemies.size() && playerReachable)
-        {
-            Enemy e = enemies.get(i);
-            if (e.getPosition().y > player.getPosition().y + player.getHeight()) {
-                playerReachable = false;
-            } else {
-                if (player.hasCollision(e)) {
-                    player.handleCollision(e);
-                    e.handleCollision(player);
-                    if (player.isDead())
-                    {
-                        endGame = true;
+    public void checkCollisions() {
+        // On parcourt les ennemis pour verifier leurs collisions
+        for (Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();) {
+            Enemy enemy = enemyIterator.next();
+            // On verifie les collisions avec le joueur
+            if (enemy.hasCollision(player)) {
+                enemy.handleCollision(player);
+                player.handleCollision(enemy);
+                if (player.isDead()) {  // Si le joueur est mort
+                    endGame = true;
+                    return;             // On arrete le jeu
+                }
+            }
+
+            // On verifie les collisions avec les tirs du joueurs
+            for (Iterator<Shot> playerShotIterator = playerShots.iterator(); playerShotIterator.hasNext();) {
+                Shot playerShot = playerShotIterator.next();
+                // On ne verifie pas la collision si l'ennemi est deja mort
+                if (!enemy.isDead() && enemy.hasCollision(playerShot)) {
+                    enemy.handleCollision(playerShot);
+                    playerShot.handleCollision(enemy);
+                    if (playerShot.isDead()) {          // Si le tir est detruit
+                        shotPool.free(playerShot);      // on le remet dans le pool
+                        playerShotIterator.remove();    // et on l'enleve de la liste des tirs actifs
                     }
                 }
             }
-            i++;
-        }
-        for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
-            Enemy enemy = iterator.next();
-            int j = 0;
-            boolean enemyReachable = true;
-            while(j < playerShots.size() && enemyReachable)
-            {
-                Shot s = playerShots.get(j);
-                if (s.getPosition().y + s.getHeight() < enemy.getPosition().y) {
-                    playerReachable = false;
-                } else {
-                    if (enemy.hasCollision(s)) {
-                        s.handleCollision(enemy);
-                        enemy.handleCollision(s);
-                        if (s.isDead())
-                        {
-                            shotPool.free(s);       // on le remet dans le pool
-                            playerShots.remove(s);  // et on l'enleve de la liste des tirs actifs
 
-                        }
-                        if (enemy.isDead())
-                        {
-                            enemyPool.free(enemy);  // on le remet dans le pool
-                            iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
-                        }
-                    }
-                }
-                j++;
+            // Finalement, on verifie l'etat de l'ennemi
+            if (enemy.isDead()) {       // Si l'ennemi est mort
+                enemyPool.free(enemy);  // on le remet dans le pool
+                enemyIterator.remove(); // et on l'enleve de la liste d'ennemis actifs
             }
         }
     }

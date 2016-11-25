@@ -84,7 +84,8 @@ public abstract class GameElement implements Collidable {
         this.width = gameElement.width;
         this.height = gameElement.height;
         boundingBox.set(position.x, position.y, width, height);
-    }
+		this.life = 1;
+	}
 
     public abstract CollisionType getCollisionType();
 
