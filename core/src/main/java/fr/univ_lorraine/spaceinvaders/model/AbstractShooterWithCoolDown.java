@@ -3,13 +3,13 @@ package fr.univ_lorraine.spaceinvaders.model;
 /**
  * Classe abstraite permettant de generer des tirs avec un cooldown (temps de recharge).
  */
-public abstract class AbstractShooterWithCoolDown extends AbstractShooter {
+public abstract class AbstractShooterWithCooldown extends AbstractShooter {
 
     protected float cooldownTime;
 
     protected float cooldown;
 
-    public AbstractShooterWithCoolDown(World w, float cdt) {
+    public AbstractShooterWithCooldown(World w, float cdt) {
         super(w);
         cooldownTime = cdt;
         cooldown = 0;

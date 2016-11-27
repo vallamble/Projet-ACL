@@ -99,4 +99,15 @@ public abstract class GameMoveableElement extends GameElement {
 		this.direction = gameMoveableElement.direction;
 	}
 
+    /**
+     * Methode de l'interface Poolable qui reinitialise les attributs de l'objet.
+     */
+    @Override
+    public void reset() {
+        super.reset();
+        this.speed = 0f;
+        this.isMoving = false;
+        this.direction = null;
+    }
+
 }

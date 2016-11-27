@@ -1,11 +1,12 @@
 package fr.univ_lorraine.spaceinvaders.model;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Classe abstraite definissant un element du jeu appartenant au monde.
  */
-public abstract class GameElement implements Collidable {
+public abstract class GameElement implements Collidable, Pool.Poolable {
 
 	protected float width, height;
 	
@@ -83,6 +84,18 @@ public abstract class GameElement implements Collidable {
         this.height = gameElement.height;
         boundingBox.set(position.x, position.y, width, height);
 		this.life = 1;
+	}
+
+	/**
+	 * Methode de l'interface Poolable qui reinitialise les attributs de l'objet.
+	 */
+	@Override
+	public void reset() {
+		this.position.set(0f, 0f);
+		this.height = 0f;
+		this.width = 0f;
+		this.life = 0;
+		updateBoundingBox();
 	}
 
 }
