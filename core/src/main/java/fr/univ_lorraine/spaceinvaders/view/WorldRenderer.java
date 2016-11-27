@@ -1,14 +1,11 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.util.List;
 
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.GameElement;
@@ -29,6 +26,12 @@ public class WorldRenderer {
     private OrthographicCamera camera;
 
     private Viewport viewport;
+
+    private PlayerDrawer playerDrawer;
+
+    private EnemyDrawer enemyDrawer;
+
+    private ShotDrawer shotDrawer;
 
     /**
      * Pixels par unite.
@@ -51,6 +54,10 @@ public class WorldRenderer {
         viewport.apply();
         camera.position.set(world.getWidth() * ppux / 2, world.getHeight() * ppuy / 2, 0);
         showBoundingBox = false;
+
+        playerDrawer = new PlayerDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
+        enemyDrawer = new EnemyDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
+        shotDrawer = new ShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
     }
 
     public void setWorld(World world) {
@@ -61,64 +68,31 @@ public class WorldRenderer {
      * Affiche le monde.
      * Est appelee par gameScreen.render(delta).
      */
-    public void render(float delta) {
+    public void render() {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         drawBackground();
-        drawPlayer();
-        drawEnemies();
-        drawPlayerShoots();
+        playerDrawer.draw(world.getPlayer());
+        for (Enemy enemy : world.getEnemies())
+                enemyDrawer.draw(enemy);
+        for (Shot shot : world.getPlayerShots())
+                shotDrawer.draw(shot);
         spriteBatch.end();
+
         if (showBoundingBox) {
             shapeRenderer.setProjectionMatrix(camera.combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            drawPlayerBoundingBox();
-            drawEnemiesBoundingBox();
-            drawShotsBoundingBox();
+            playerDrawer.drawBoundingBox(world.getPlayer());
+            for (Enemy enemy : world.getEnemies())
+                enemyDrawer.drawBoundingBox(enemy);
+            for (Shot shot : world.getPlayerShots())
+                shotDrawer.drawBoundingBox(shot);
             shapeRenderer.end();
         }
     }
 
-    private void drawGameElement(TextureRegion texture, GameElement gameElement) {
-        spriteBatch.draw(texture, gameElement.getPosition().x * ppux, gameElement.getPosition().y * ppuy, gameElement.getWidth() * ppux, gameElement.getHeight() * ppuy);
-    }
-
-    private void drawGameElementBoundingBox(GameElement gameElement) {
-        shapeRenderer.rect(gameElement.getBoundingBox().x * ppux, gameElement.getBoundingBox().y * ppuy, gameElement.getBoundingBox().getWidth() * ppux, gameElement.getBoundingBox().getHeight() * ppuy);
-    }
-
     private void drawBackground() {
         spriteBatch.draw(TextureFactory.getInstance().getBackground(), 0 * ppux, 0 * ppuy, world.getWidth() * ppux, world.getHeight() * ppuy);
-    }
-
-    private void drawPlayer() {
-        drawGameElement(TextureFactory.getInstance().getPlayer(), world.getPlayer());
-    }
-
-    private void drawEnemies() {
-        for (Enemy enemy : world.getEnemies()) {
-            drawGameElement(TextureFactory.getInstance().getSmallEnemyShip(), enemy);
-        }
-    }
-
-    private void drawPlayerShoots() {
-        for (Shot shot : world.getPlayerShots()) {
-            drawGameElement(TextureFactory.getInstance().getSmallEnemyShip(), shot);
-        }
-    }
-
-    private void drawPlayerBoundingBox() {
-        drawGameElementBoundingBox(world.getPlayer());
-    }
-
-    private void drawEnemiesBoundingBox() {
-        for (Enemy enemy : world.getEnemies())
-            drawGameElementBoundingBox(enemy);
-    }
-
-    private void drawShotsBoundingBox() {
-        for (Shot shot: world.getPlayerShots())
-            drawGameElementBoundingBox(shot);
     }
 
     public void resize(int width, int height) {

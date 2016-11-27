@@ -71,9 +71,9 @@ public class GameScreen extends AbstractScreen {
         // On verifie si une touche est maintenue
         gameListener.checkHeldKey();
 
-        world.update(delta);         // On met a jour le monde
+        world.update(delta);    // On met a jour le monde
 
-        worldRenderer.render(delta); // et on l'affiche
+        worldRenderer.render(); // et on l'affiche
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
