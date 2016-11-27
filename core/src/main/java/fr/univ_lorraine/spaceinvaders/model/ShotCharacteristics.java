@@ -20,8 +20,10 @@ public class ShotCharacteristics {
         positionShift = new Vector2(shiftX, shiftY);
     }
 
+
     public void applyShotCharacteristics(Shot shot) {
-        shot.init(shotAttributes);
+        if (shot != null)
+            shot.init(shotAttributes);
         shot.getPosition().add(positionShift);
     }
 }

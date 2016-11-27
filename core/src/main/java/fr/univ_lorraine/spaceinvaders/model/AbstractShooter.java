@@ -30,7 +30,7 @@ public abstract class AbstractShooter {
      * @param position La position du tireur.
      * @return Les tirs generes.
      */
-    protected Shot[] generateShoots(Vector2 position) {
+    protected Shot[] generateShots(Vector2 position) {
         Shot[] shots = new Shot[shotsCharacteristics.size()];
         // Pour chaque tir qui doit etre genere par ce shooter
         for (int i=0 ; i < shotsCharacteristics.size() ; i++) {

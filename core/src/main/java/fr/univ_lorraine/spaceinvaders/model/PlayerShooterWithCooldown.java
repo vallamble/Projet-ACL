@@ -19,7 +19,7 @@ public class PlayerShooterWithCooldown extends AbstractShooterWithCooldown {
         // Si le cooldown est termine, on peut tirer
         if (canShoot()) {
             cooldown = cooldownTime;
-            List<Shot> shots = Arrays.asList(generateShoots(position));
+            List<Shot> shots = Arrays.asList(generateShots(position));
             world.getPlayerShots().addAll(shots); // On ajoute les tirs generes aux tirs actifs du joueur
         }
     }
