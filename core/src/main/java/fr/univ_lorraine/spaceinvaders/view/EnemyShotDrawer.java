@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 /**
  * Created by alexis on 27/11/2016.
  */
-public class ShotDrawer extends GameElementDrawer {
+public class EnemyShotDrawer extends GameElementDrawer {
 
-    public ShotDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
+    public EnemyShotDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
         super(sn, sr, ppux, ppuy);
     }
 

@@ -20,7 +20,11 @@ public class World {
 
     private List<Shot> playerShots;
 
+    private List<Shot> enemyShots;
+
     private List<IEnemyGenerator> enemyGenerators;
+
+    private List<AbstractEnemyController> enemyControllers;
 
     /**
      * Rectangle representant les limites du monde.
@@ -49,10 +53,21 @@ public class World {
         PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 0.3f);
         Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         playerShot.setDirection(GameMoveableElement.Direction.UP);
-        playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
+
+        // tir cote gauche
+        playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() * 8.5f/95f - playerShot.getWidth() / 2, player.getHeight() * 80f/127f));
+        // tir cote droit
+        playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() * 86.5f/95f - playerShot.getWidth() / 2, player.getHeight() * 80f/127f));
+        // tir milieu
+        //playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
+
         player.setShooter(playerShooter);
+        player.setLife(4);
 
         playerShots = new ArrayList<Shot>();
+
+        enemyShots = new ArrayList<Shot>();
+
         shotPool = new Pool<Shot>() {
             @Override
             protected Shot newObject() {
@@ -69,6 +84,8 @@ public class World {
         };
 
         enemyGenerators = new ArrayList<IEnemyGenerator>();
+
+        enemyControllers = new ArrayList<AbstractEnemyController>();
     }
 
     /**
@@ -100,6 +117,10 @@ public class World {
         return playerShots;
     }
 
+    public List<Shot> getEnemyShots() {
+        return enemyShots;
+    }
+
     public List<IEnemyGenerator> getEnemyGenerators() {
         return enemyGenerators;
     }
@@ -126,6 +147,10 @@ public class World {
         enemyGenerators.add(enemyGenerator);
     }
 
+    public void addEnemyController(AbstractEnemyController enemyController) {
+        enemyControllers.add(enemyController);
+    }
+
     /**
      * On met a jour les differents elements du monde.
      * @param delta Le temps ecoule depuis le dernier update.
@@ -140,12 +165,14 @@ public class World {
             player.setPosition(width - player.getWidth(), player.getPosition().y);
 
         // Gestion des ennemis
+        for (AbstractEnemyController enemyController : enemyControllers)
+            enemyController.control();
+
         for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
             Enemy enemy = iterator.next();
             enemy.update(delta);
 
             if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
-                //System.out.println("out");
                 enemyPool.free(enemy);  // on le remet dans le pool
                 iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
             }
@@ -156,7 +183,16 @@ public class World {
             Shot shot = iterator.next();
             shot.update(delta);
             if (outOfWorld(shot)) {    // Si le tir sort du monde,
-                //System.out.println("out");
+                shotPool.free(shot);  // on le remet dans le pool
+                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+
+        // Gestion des tirs des ennemis
+        for (Iterator<Shot> iterator = enemyShots.iterator(); iterator.hasNext();) {
+            Shot shot = iterator.next();
+            shot.update(delta);
+            if (outOfWorld(shot)) {    // Si le tir sort du monde,
                 shotPool.free(shot);  // on le remet dans le pool
                 iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
             }
@@ -169,7 +205,7 @@ public class World {
         checkCollisions();
     }
 
-    public void checkCollisions() {
+    private void checkCollisions() {
         // On parcourt les ennemis pour verifier leurs collisions
         for (Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();) {
             Enemy enemy = enemyIterator.next();
@@ -201,6 +237,23 @@ public class World {
             if (enemy.isDead()) {       // Si l'ennemi est mort
                 enemyPool.free(enemy);  // on le remet dans le pool
                 enemyIterator.remove(); // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+
+        // On verifie les collisions entre le joueur et les tis ennemis
+        for (Iterator<Shot> enemyShotIterator = enemyShots.iterator(); enemyShotIterator.hasNext();) {
+            Shot enemyShot = enemyShotIterator.next();
+            if (enemyShot.hasCollision(player)) {
+                enemyShot.handleCollision(player);
+                player.handleCollision(enemyShot);
+                if (player.isDead()) {  // Si le joueur est mort
+                    endGame = true;
+                    return;             // On arrete le jeu
+                }
+                if (enemyShot.isDead()) {          // Si le tir est detruit
+                    shotPool.free(enemyShot);      // on le remet dans le pool
+                    enemyShotIterator.remove();    // et on l'enleve de la liste des tirs actifs
+                }
             }
         }
     }

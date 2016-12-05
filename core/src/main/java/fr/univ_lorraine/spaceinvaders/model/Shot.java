@@ -3,9 +3,9 @@ package fr.univ_lorraine.spaceinvaders.model;
 import com.badlogic.gdx.utils.Pool;
 
 /**
- * Created by alexis on 24/11/2016.
+ * Classe modelisant un tir.
  */
-public class Shot extends GameMoveableElement implements Pool.Poolable {
+public class Shot extends GameMoveableElement {
 
     private int damages;
 

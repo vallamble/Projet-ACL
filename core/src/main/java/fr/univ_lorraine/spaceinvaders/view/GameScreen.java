@@ -8,9 +8,14 @@ import java.util.ArrayList;
 
 import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
 import fr.univ_lorraine.spaceinvaders.controller.GameListener;
+import fr.univ_lorraine.spaceinvaders.model.AbstractShooter;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
+import fr.univ_lorraine.spaceinvaders.model.EnemyShooterWithCooldown;
 import fr.univ_lorraine.spaceinvaders.model.GameMoveableElement;
 import fr.univ_lorraine.spaceinvaders.model.PeriodicEnemyGenerator;
+import fr.univ_lorraine.spaceinvaders.model.Shot;
+import fr.univ_lorraine.spaceinvaders.model.ShotCharacteristics;
+import fr.univ_lorraine.spaceinvaders.model.SimpleEnemyController;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 /**
@@ -38,10 +43,24 @@ public class GameScreen extends AbstractScreen {
         super(g);
 
         world = new World(15f, 20f);
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 10f);
+
+        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 7f);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
-        world.addEnemyGenerator(new PeriodicEnemyGenerator(enemyAttributes, 1f));
+
+        EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
+        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
+        enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
+
+        enemyAttributes.setShooter(enemyShooter);
+
+        SimpleEnemyController enemyController = new SimpleEnemyController();
+        world.addEnemyController(enemyController);
+
+        PeriodicEnemyGenerator enemyGenerator = new PeriodicEnemyGenerator(enemyAttributes, 1f);
+        enemyGenerator.setEnemyController(enemyController);
+        world.addEnemyGenerator(enemyGenerator);
 
         worldRenderer = new WorldRenderer(world);
         gameListener = new GameListener(world);
@@ -53,10 +72,24 @@ public class GameScreen extends AbstractScreen {
 
     public void resetGame() {
         world = new World(15f, 20f);
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 10f);
+
+        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 7f);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
-        world.addEnemyGenerator(new PeriodicEnemyGenerator(enemyAttributes, 1f));
+
+        EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
+        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
+        enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
+
+        enemyAttributes.setShooter(enemyShooter);
+
+        SimpleEnemyController enemyController = new SimpleEnemyController();
+        world.addEnemyController(enemyController);
+
+        PeriodicEnemyGenerator enemyGenerator = new PeriodicEnemyGenerator(enemyAttributes, 1f);
+        enemyGenerator.setEnemyController(enemyController);
+        world.addEnemyGenerator(enemyGenerator);
 
         worldRenderer.setWorld(world);
         gameListener.setWorld(world);

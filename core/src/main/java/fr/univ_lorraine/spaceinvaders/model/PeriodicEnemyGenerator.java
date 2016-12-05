@@ -11,6 +11,8 @@ public class PeriodicEnemyGenerator implements IEnemyGenerator {
 
     private Enemy enemyAttributes;
 
+    private AbstractEnemyController enemyController;
+
     private float timeBetweenGenerations;
 
     private float timeSinceLastEnemyGeneration;
@@ -22,6 +24,10 @@ public class PeriodicEnemyGenerator implements IEnemyGenerator {
         this.timeBetweenGenerations = timeBetweenGenerations;
         timeSinceLastEnemyGeneration = 0f;
         rng = new Random();
+    }
+
+    public void setEnemyController(AbstractEnemyController enemyController) {
+        this.enemyController = enemyController;
     }
 
     @Override
@@ -39,7 +45,9 @@ public class PeriodicEnemyGenerator implements IEnemyGenerator {
             Enemy newEnemy = world.obtainEnemyFromPool();
             newEnemy.init(enemyAttributes);
             newEnemy.setPosition(posX, posY);
-            world.getEnemies().add(newEnemy);
+            world.getEnemies().add(newEnemy);   // On ajoute l'ennemi au monde
+            if (enemyController != null)
+                enemyController.addEnemy(newEnemy); // et au controleur d'ennemi attribue
         }
     }
 

@@ -2,13 +2,11 @@ package fr.univ_lorraine.spaceinvaders.view;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
-import fr.univ_lorraine.spaceinvaders.model.GameElement;
 import fr.univ_lorraine.spaceinvaders.model.Shot;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
@@ -31,7 +29,9 @@ public class WorldRenderer {
 
     private EnemyDrawer enemyDrawer;
 
-    private ShotDrawer shotDrawer;
+    private PlayerShotDrawer playerShotDrawer;
+
+    private EnemyShotDrawer enemyShotDrawer;
 
     /**
      * Pixels par unite.
@@ -57,7 +57,8 @@ public class WorldRenderer {
 
         playerDrawer = new PlayerDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
         enemyDrawer = new EnemyDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
-        shotDrawer = new ShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
+        playerShotDrawer = new PlayerShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
+        enemyShotDrawer = new EnemyShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
     }
 
     public void setWorld(World world) {
@@ -74,9 +75,11 @@ public class WorldRenderer {
         drawBackground();
         playerDrawer.draw(world.getPlayer());
         for (Enemy enemy : world.getEnemies())
-                enemyDrawer.draw(enemy);
+            enemyDrawer.draw(enemy);
         for (Shot shot : world.getPlayerShots())
-                shotDrawer.draw(shot);
+            playerShotDrawer.draw(shot);
+        for (Shot shot : world.getEnemyShots())
+            enemyShotDrawer.draw(shot);
         spriteBatch.end();
 
         if (showBoundingBox) {
@@ -86,7 +89,7 @@ public class WorldRenderer {
             for (Enemy enemy : world.getEnemies())
                 enemyDrawer.drawBoundingBox(enemy);
             for (Shot shot : world.getPlayerShots())
-                shotDrawer.drawBoundingBox(shot);
+                playerShotDrawer.drawBoundingBox(shot);
             shapeRenderer.end();
         }
     }

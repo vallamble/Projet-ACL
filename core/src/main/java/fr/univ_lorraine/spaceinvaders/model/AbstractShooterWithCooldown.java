@@ -15,6 +15,10 @@ public abstract class AbstractShooterWithCooldown extends AbstractShooter {
         cooldown = 0;
     }
 
+    protected boolean canShoot() {
+        return cooldown <= 0;
+    }
+
     /**
      * On met a jour le cooldown en fonction du temps ecoule.
      * @param delta Le temps ecoule depuis le dernier update.
@@ -23,10 +27,6 @@ public abstract class AbstractShooterWithCooldown extends AbstractShooter {
     public void update(float delta) {
         if (cooldown > 0)
             cooldown -= delta;
-    }
-
-    protected boolean canShoot() {
-        return cooldown <= 0;
     }
 
 }

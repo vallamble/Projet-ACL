@@ -17,6 +17,10 @@ public class Player extends GameMoveableElement {
         isMoving = false;
 	}
 
+    public void setLife(int l) {
+        life = l;
+    }
+
     public void setShooter(AbstractShooter s) {
         shooter = s;
     }
@@ -35,6 +39,11 @@ public class Player extends GameMoveableElement {
     public void turnRight() {
         direction = Direction.RIGHT;
         isMoving = true;
+    }
+
+    public void shoot() {
+        if (shooter != null)
+            shooter.shoot(this.position);
     }
 
     /**
@@ -61,11 +70,6 @@ public class Player extends GameMoveableElement {
         // On met a jour le shooter
         if (shooter != null)
             shooter.update(delta);
-    }
-
-    public void shoot() {
-        if (shooter != null)
-            shooter.shoot(this.position);
     }
 
     @Override

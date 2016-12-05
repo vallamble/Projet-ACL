@@ -58,4 +58,10 @@ public abstract class AbstractShooter {
      */
     public abstract void update(float delta);
 
+    /**
+     * Renvoie un nouvel objet (une copie) avec les memes caracteristiques.
+     * @return Une copie de l'objet.
+     */
+    public abstract AbstractShooter copy();
+
 }

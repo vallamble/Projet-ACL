@@ -31,6 +31,11 @@ public class TestAbstractShooter {
             public void update(float delta) {
 
             }
+
+            @Override
+            public AbstractShooter copy() {
+                return null;
+            }
         };
         position = new Vector2(0f, 0f);
     }

@@ -6,12 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Classe generant des tirs pour le joueur avec un temps de recharge.
+ * Created by alexis on 05/12/2016.
  */
-public class PlayerShooterWithCooldown extends AbstractShooterWithCooldown {
+public class EnemyShooterWithCooldown extends AbstractShooterWithCooldown {
 
-    public PlayerShooterWithCooldown(World w, float cd) {
-        super(w, cd);
+    public EnemyShooterWithCooldown(World w, float cdt) {
+        super(w, cdt);
     }
 
     @Override
@@ -20,13 +20,13 @@ public class PlayerShooterWithCooldown extends AbstractShooterWithCooldown {
         if (canShoot()) {
             cooldown = cooldownTime;
             List<Shot> shots = Arrays.asList(generateShots(position));
-            world.getPlayerShots().addAll(shots); // On ajoute les tirs generes aux tirs actifs du joueur
+            world.getEnemyShots().addAll(shots); // On ajoute les tirs generes aux tirs actifs des ennemis
         }
     }
 
     @Override
     public AbstractShooter copy() {
-        PlayerShooterWithCooldown copy = new PlayerShooterWithCooldown(world, cooldownTime);
+        EnemyShooterWithCooldown copy = new EnemyShooterWithCooldown(world, cooldownTime);
         for (ShotCharacteristics shotCharacteristics : shotsCharacteristics)
             copy.addShotCharacteristics(shotCharacteristics);
         return copy;
