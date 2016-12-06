@@ -24,10 +24,10 @@ public abstract class GameElementDrawer {
         this.ppuy = ppuy;
     }
 
-    protected abstract TextureRegion getTexture();
+    protected abstract TextureRegion getTexture(GameElement gameElement);
 
     public void draw(GameElement gameElement) {
-        spriteBatch.draw(getTexture(), gameElement.getPosition().x * ppux, gameElement.getPosition().y * ppuy, gameElement.getWidth() * ppux, gameElement.getHeight() * ppuy);
+        spriteBatch.draw(getTexture(gameElement), gameElement.getPosition().x * ppux, gameElement.getPosition().y * ppuy, gameElement.getWidth() * ppux, gameElement.getHeight() * ppuy);
     }
 
     public void drawBoundingBox(GameElement gameElement) {

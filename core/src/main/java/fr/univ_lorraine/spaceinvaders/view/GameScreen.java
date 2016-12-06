@@ -44,12 +44,12 @@ public class GameScreen extends AbstractScreen {
 
         world = new World(15f, 20f);
 
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 7f);
+        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
 
         EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
-        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
+        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.1f*33f/9f, 10f, 1);
         enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
         enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
 
@@ -73,7 +73,7 @@ public class GameScreen extends AbstractScreen {
     public void resetGame() {
         world = new World(15f, 20f);
 
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 1.5f, 7f);
+        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
 

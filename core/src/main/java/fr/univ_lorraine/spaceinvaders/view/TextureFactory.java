@@ -2,7 +2,6 @@ package fr.univ_lorraine.spaceinvaders.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureFactory {
@@ -11,15 +10,21 @@ public class TextureFactory {
 
     private TextureRegion background;
 
-    private TextureRegion ship;
+    private TextureRegion player;
 
-    private TextureRegion smallEnemyShip;
+    private TextureRegion enemyShip;
+
+    private TextureRegion laserGreen;
+
+    private TextureRegion laserRed;
 
     private TextureFactory() {
-        background = new TextureRegion(new Texture(Gdx.files.internal("images/stars_background.jpg")));
-        ship = new TextureRegion(new Texture(Gdx.files.internal("images/spaceship.png")));
-        smallEnemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/small_enemy_ship.png")));
-        smallEnemyShip.flip(false, true);
+        background = new TextureRegion(new Texture(Gdx.files.internal("images/starBackground.png")));
+        player = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
+        enemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/enemyShip.png")));
+        enemyShip.flip(false, true);
+        laserGreen = new TextureRegion(new Texture(Gdx.files.internal("images/laserGreen.png")));
+        laserRed = new TextureRegion(new Texture(Gdx.files.internal("images/laserRed.png")));
     }
 
     public static TextureFactory getInstance() {
@@ -31,10 +36,18 @@ public class TextureFactory {
     }
 
     public TextureRegion getPlayer() {
-        return ship;
+        return player;
     }
 
-    public TextureRegion getSmallEnemyShip() {
-        return smallEnemyShip;
+    public TextureRegion getEnemyShip() {
+        return enemyShip;
+    }
+
+    public TextureRegion getLaserGreen() {
+        return laserGreen;
+    }
+
+    public TextureRegion getLaserRed() {
+        return laserRed;
     }
 }

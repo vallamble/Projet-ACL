@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import fr.univ_lorraine.spaceinvaders.model.GameElement;
+
 /**
  * Created by alexis on 27/11/2016.
  */
@@ -14,7 +16,7 @@ public class EnemyShotDrawer extends GameElementDrawer {
     }
 
     @Override
-    protected TextureRegion getTexture() {
-        return TextureFactory.getInstance().getSmallEnemyShip();
+    protected TextureRegion getTexture(GameElement gameElement) {
+        return TextureFactory.getInstance().getLaserRed();
     }
 }

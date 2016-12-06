@@ -32,8 +32,16 @@ public abstract class GameMoveableElement extends GameElement {
         speed = s;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
     }
 
     public void setIsMoving(boolean isMoving) {

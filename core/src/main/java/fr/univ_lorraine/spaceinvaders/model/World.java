@@ -47,11 +47,11 @@ public class World {
 		height = h;
         worldLimits = new Rectangle(0f, 0f, width, height);
 
-        player = new Player(0f, 0f, 1f, 1.3368f, 5f);
+        player = new Player(0f, 0f, 1.2f, 1.2f*75f/99f, 5f);
         // On positionne le vaisseau du joueur en bas au milieu du monde
         player.setPosition(this.width/2 - player.getWidth()/2, 0);
         PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 0.3f);
-        Shot playerShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
+        Shot playerShot = new Shot(0f, 0f, 0.1f, 0.1f*33f/9f, 10f, 1);
         playerShot.setDirection(GameMoveableElement.Direction.UP);
 
         // tir cote gauche
@@ -156,14 +156,6 @@ public class World {
      * @param delta Le temps ecoule depuis le dernier update.
      */
     public void update(float delta) {
-        // Gestion du joueur
-        player.update(delta);
-        // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
-        if (player.getPosition().x < 0f)
-            player.setPosition(0f, player.getPosition().y);
-        else if (player.getPosition().x > width - player.getWidth())
-            player.setPosition(width - player.getWidth(), player.getPosition().y);
-
         // Gestion des ennemis
         for (AbstractEnemyController enemyController : enemyControllers)
             enemyController.control();
@@ -177,6 +169,14 @@ public class World {
                 iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
             }
         }
+
+        // Gestion du joueur
+        player.update(delta);
+        // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
+        if (player.getPosition().x < 0f)
+            player.setPosition(0f, player.getPosition().y);
+        else if (player.getPosition().x > width - player.getWidth())
+            player.setPosition(width - player.getWidth(), player.getPosition().y);
 
         // Gestion des tirs du joueur
         for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext();) {
@@ -202,6 +202,7 @@ public class World {
         for (IEnemyGenerator enemyGenerator : enemyGenerators)
             enemyGenerator.generateEnemy(this, delta);
 
+        // On verifie les collisions
         checkCollisions();
     }
 
