@@ -17,10 +17,6 @@ public class Player extends GameMoveableElement {
         isMoving = false;
 	}
 
-    public void setLife(int l) {
-        life = l;
-    }
-
     public void setShooter(AbstractShooter s) {
         shooter = s;
     }

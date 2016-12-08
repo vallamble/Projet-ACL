@@ -11,8 +11,8 @@ import fr.univ_lorraine.spaceinvaders.model.GameElement;
  */
 public class PlayerShotDrawer extends GameElementDrawer {
 
-    public PlayerShotDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
-        super(sn, sr, ppux, ppuy);
+    public PlayerShotDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy, float worldOriginX, float worldOriginY) {
+        super(sn, sr, ppux, ppuy, worldOriginX, worldOriginY);
     }
 
     @Override

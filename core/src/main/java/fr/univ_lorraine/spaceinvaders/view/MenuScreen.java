@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
 import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
-import fr.univ_lorraine.spaceinvaders.controller.GameListener;
-import fr.univ_lorraine.spaceinvaders.model.GameMoveableElement;
 
 /**
  * Ecran du menu du jeu.
@@ -15,7 +13,9 @@ public class MenuScreen extends AbstractScreen {
 
     private MenuRenderer menuRenderer;
 
-    //private MenuListener menuListener;
+    private MenuChoice choice = MenuChoice.LANCER_PARTIE;
+
+    public enum MenuChoice { LANCER_PARTIE, MEILLEURES_SCORES, QUITTER };
 
     /**
      * Permet d'afficher les fps.
@@ -30,7 +30,7 @@ public class MenuScreen extends AbstractScreen {
     public MenuScreen(SpaceInvadersGame g) {
         super(g);
 
-        menuRenderer = new MenuRenderer();
+        menuRenderer = new MenuRenderer(this);
         fpsLogger = new FPSLogger();
         showFPS = false;
     }
@@ -55,15 +55,39 @@ public class MenuScreen extends AbstractScreen {
             fpsLogger.log();
     }
 
+    public void setChoice(int num) {
+        if(choice == MenuChoice.LANCER_PARTIE) {
+            if (num == 1)
+                choice = MenuChoice.QUITTER;
+            if (num == -1)
+                choice = MenuChoice.MEILLEURES_SCORES;
+        }
+        else if(choice == MenuChoice.MEILLEURES_SCORES) {
+            if (num == 1)
+                choice = MenuChoice.LANCER_PARTIE;
+            if (num == -1)
+                choice = MenuChoice.QUITTER;
+        }
+        else if(choice == MenuChoice.QUITTER) {
+            if(num == 1)
+                choice = MenuChoice.MEILLEURES_SCORES;
+            if(num == -1)
+                choice = MenuChoice.LANCER_PARTIE;
+        }
+    }
+
+    public MenuChoice getChoice() { return choice; }
+
+    public void selectChoice() {
+        if(choice == MenuChoice.LANCER_PARTIE)
+            game.changeScreen(SpaceInvadersGame.ScreenEnum.GAME_SCREEN);
+        if(choice == MenuChoice.QUITTER)
+            Gdx.app.exit();
+    }
+
     @Override
     public void resize(int width, int height) {
         menuRenderer.resize(width, height);
     }
 
-    @Override
-    public void dispose() {
-        menuRenderer = null;
-        //menuListener = null;
-        fpsLogger = null;
-    }
 }

@@ -13,8 +13,8 @@ import fr.univ_lorraine.spaceinvaders.model.Player;
  */
 public class PlayerDrawer extends GameElementDrawer {
 
-    public PlayerDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
-        super(sn, sr, ppux, ppuy);
+    public PlayerDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy, float worldOriginX, float worldOriginY) {
+        super(sn, sr, ppux, ppuy, worldOriginX, worldOriginY);
     }
 
     @Override

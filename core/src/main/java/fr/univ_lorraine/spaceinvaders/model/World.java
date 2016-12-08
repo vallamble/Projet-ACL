@@ -50,6 +50,12 @@ public class World {
 
     private boolean endGame = false;
 
+    private int playerScore = 0;
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
     public World(float w, float h) {
 
 		width = w;
@@ -71,7 +77,7 @@ public class World {
         //playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
 
         player.setShooter(playerShooter);
-        player.setLife(4);
+        player.setMaxLife(4);
 
         playerShots = new ArrayList<Shot>();
 
@@ -168,7 +174,6 @@ public class World {
 
         if (!pause) {
 
-
             // Gestion des ennemis
             for (AbstractEnemyController enemyController : enemyControllers)
                 enemyController.control();
@@ -221,7 +226,7 @@ public class World {
 
     }
 
-    private void checkCollisions() {
+    protected void checkCollisions() {
         // On parcourt les ennemis pour verifier leurs collisions
         for (Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();) {
             Enemy enemy = enemyIterator.next();
@@ -251,6 +256,7 @@ public class World {
 
             // Finalement, on verifie l'etat de l'ennemi
             if (enemy.isDead()) {       // Si l'ennemi est mort
+                playerScore += enemy.getScore();
                 enemyPool.free(enemy);  // on le remet dans le pool
                 enemyIterator.remove(); // et on l'enleve de la liste d'ennemis actifs
             }
@@ -280,9 +286,8 @@ public class World {
     /**
      * Inverse le boolén pause
      */
-    public void pause() {
-        this.pause = !pause;
-    }
+    public void pause() { this.pause = !pause; }
 
+    public boolean getPause() { return pause; }
 
 }

@@ -81,4 +81,45 @@ public class TestWorld {
         assertEquals(1, world.getEnemies().size());
         assertSame(enemyInsideWorld, world.getEnemies().get(0));
     }
+
+    @Test
+    public void testEnnemyDestruction() {
+        Enemy enemy1 = new Enemy(10f, 10f, 4f, 3f, 18f);
+        Enemy enemy2 = new Enemy(5f, 5f, 4f, 3f, 18f);
+        player.shoot();
+        world.getEnemies().add(enemy1);
+        world.getEnemies().add(enemy2);
+        world.getPlayerShots().get(0).setPosition(10f,10f);
+        world.checkCollisions();
+        assertEquals(1, world.getEnemies().size());
+        assertFalse(world.getEnemies().contains(enemy1));
+    }
+
+    @Test
+    public void testEndOfTheGame() {
+        Enemy enemy1 = new Enemy(10f, 10f, 4f, 3f, 18f);
+        world.getEnemies().add(enemy1);
+
+        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
+        enemyAttributes.setIsMoving(true);
+        enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
+
+        EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 0f);
+        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
+        enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
+
+        enemy1.setShooter(enemyShooter);
+        enemy1.shoot();
+        enemy1.shoot();
+        enemy1.shoot();
+        enemy1.shoot();
+        for (Shot s: world.getEnemyShots())
+        {
+            s.setPosition(player.position.x, player.position.y);
+        }
+        world.checkCollisions();
+        assertEquals(world.getEnemyShots().size(), 0);
+        assertTrue(world.getEndGame());
+    }
 }

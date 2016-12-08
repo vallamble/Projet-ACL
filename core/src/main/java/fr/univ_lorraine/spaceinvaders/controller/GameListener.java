@@ -3,15 +3,18 @@ package fr.univ_lorraine.spaceinvaders.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import fr.univ_lorraine.spaceinvaders.view.GameScreen;
 
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 public class GameListener implements InputProcessor {
 
     private World world;
+    private GameScreen game;
 
-    public GameListener(World w) {
-        world = w;
+    public GameListener(GameScreen g) {
+        game = g;
+        world = game.getWorld();
     }
 
     public void setWorld(World world) {
@@ -45,6 +48,12 @@ public class GameListener implements InputProcessor {
                 break;
             case Input.Keys.P:
                 world.pause();
+                break;
+            case Input.Keys.ESCAPE:
+                if(world.getPause()) {
+                    game.escape();
+                    world.pause();
+                }
                 break;
         }
         return false;

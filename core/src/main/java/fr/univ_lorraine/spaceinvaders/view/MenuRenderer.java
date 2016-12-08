@@ -22,6 +22,8 @@ public class MenuRenderer {
 
     private Viewport viewport;
 
+    private MenuScreen menu;
+
     /**
      * Pixels par unite.
      */
@@ -32,7 +34,8 @@ public class MenuRenderer {
      */
     private boolean showBoundingBox;
 
-    public MenuRenderer() {
+    public MenuRenderer(MenuScreen m) {
+        menu = m;
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
@@ -63,10 +66,19 @@ public class MenuRenderer {
     }
 
     private void drawMenu() {
-        spriteBatch.draw(TextureFactory.getInstance().getMenuRectangle(), 2 * ppux, 2 * ppuy, width * ppux / 19 * 14, height * ppuy / 8);
-        spriteBatch.draw(TextureFactory.getInstance().getMenuRectangle(), 2 * ppux, 5 * ppuy, width * ppux / 19 * 14, height * ppuy / 8);
-        spriteBatch.draw(TextureFactory.getInstance().getMenuRectangle(), 2 * ppux, 8 * ppuy, width * ppux / 19 * 14, height * ppuy / 8);
-        spriteBatch.draw(TextureFactory.getInstance().getMenuRectangle(), 2 * ppux, 11 * ppuy, width * ppux / 19 * 14, height * ppuy / 8);
+        MenuScreen.MenuChoice choice = menu.getChoice();
+        if(choice == MenuScreen.MenuChoice.QUITTER)
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonQuitterSelect(), 2 * ppux, 3 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
+        else
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonQuitter(), 2 * ppux, 3 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
+        if(choice == MenuScreen.MenuChoice.MEILLEURES_SCORES)
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonScoresSelect(), 2 * ppux, 7 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
+        else
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonScores(), 2 * ppux, 7 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
+        if(choice == MenuScreen.MenuChoice.LANCER_PARTIE)
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonLancerSelect(), 2 * ppux, 11 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
+        else
+            spriteBatch.draw(TextureFactory.getInstance().getMenuBoutonLancer(), 2 * ppux, 11 * ppuy, width * ppux / 19 * 14, height * ppuy / 10);
     }
 
     private void drawBackground() {
