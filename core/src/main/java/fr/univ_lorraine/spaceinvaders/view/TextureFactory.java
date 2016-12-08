@@ -10,6 +10,10 @@ public class TextureFactory {
 
     private TextureRegion background;
 
+    private TextureRegion menuBackground;
+
+    private TextureRegion menuRectangle;
+
     private TextureRegion player;
 
     private TextureRegion enemyShip;
@@ -20,6 +24,8 @@ public class TextureFactory {
 
     private TextureFactory() {
         background = new TextureRegion(new Texture(Gdx.files.internal("images/starBackground.png")));
+        menuBackground = new TextureRegion(new Texture(Gdx.files.internal("images/menuBackground.png")));
+        menuRectangle = new TextureRegion(new Texture(Gdx.files.internal("images/rectangleMenu.png")));
         player = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
         enemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/enemyShip.png")));
         enemyShip.flip(false, true);
@@ -34,6 +40,10 @@ public class TextureFactory {
     public TextureRegion getBackground() {
         return background;
     }
+
+    public TextureRegion getMenuBackground() { return menuBackground; }
+
+    public TextureRegion getMenuRectangle() { return menuRectangle; }
 
     public TextureRegion getPlayer() {
         return player;
