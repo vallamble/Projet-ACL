@@ -31,7 +31,9 @@ public class World {
 
     private boolean pause = false;
 
-    public Music music;
+
+
+    private Music music = Gdx.audio.newMusic(Gdx.files.internal("son/menu.mp3"));
 
     /**
      * Rectangle representant les limites du monde.
@@ -289,5 +291,9 @@ public class World {
     public void pause() { this.pause = !pause; }
 
     public boolean getPause() { return pause; }
+
+    public Music getMusic() {
+        return music;
+    }
 
 }

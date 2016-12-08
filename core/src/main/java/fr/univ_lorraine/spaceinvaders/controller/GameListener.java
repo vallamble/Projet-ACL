@@ -48,6 +48,10 @@ public class GameListener implements InputProcessor {
                 break;
             case Input.Keys.P:
                 world.pause();
+                if(world.getPause())
+                    world.getMusic().pause();
+                else
+                    world.getMusic().play();
                 break;
             case Input.Keys.ESCAPE:
                 if(world.getPause()) {
