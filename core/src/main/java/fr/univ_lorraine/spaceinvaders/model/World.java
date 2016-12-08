@@ -1,7 +1,10 @@
 package fr.univ_lorraine.spaceinvaders.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Pool;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +31,8 @@ public class World {
 
     private boolean pause = false;
 
+    public Music music;
+
     /**
      * Rectangle representant les limites du monde.
      */
@@ -46,6 +51,7 @@ public class World {
     private boolean endGame = false;
 
     public World(float w, float h) {
+
 		width = w;
 		height = h;
         worldLimits = new Rectangle(0f, 0f, width, height);

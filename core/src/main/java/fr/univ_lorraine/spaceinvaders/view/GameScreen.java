@@ -43,6 +43,9 @@ public class GameScreen extends AbstractScreen {
         super(g);
 
         world = new World(15f, 20f);
+        world.music=Gdx.audio.newMusic(Gdx.files.internal("son/menu.mp3"));
+        world.music.setLooping(true);
+        world.music.play();
 
         Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
         enemyAttributes.setIsMoving(true);
