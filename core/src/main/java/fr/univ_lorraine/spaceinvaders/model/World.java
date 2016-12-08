@@ -26,9 +26,12 @@ public class World {
 
     private List<AbstractEnemyController> enemyControllers;
 
+    private boolean pause = false;
+
     /**
      * Rectangle representant les limites du monde.
      */
+
     private Rectangle worldLimits;
 
     /**
@@ -156,54 +159,60 @@ public class World {
      * @param delta Le temps ecoule depuis le dernier update.
      */
     public void update(float delta) {
-        // Gestion des ennemis
-        for (AbstractEnemyController enemyController : enemyControllers)
-            enemyController.control();
 
-        for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
-            Enemy enemy = iterator.next();
-            enemy.update(delta);
+        if (!pause) {
 
-            if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
-                enemyPool.free(enemy);  // on le remet dans le pool
-                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+
+            // Gestion des ennemis
+            for (AbstractEnemyController enemyController : enemyControllers)
+                enemyController.control();
+
+            for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
+                Enemy enemy = iterator.next();
+                enemy.update(delta);
+
+                if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
+                    enemyPool.free(enemy);  // on le remet dans le pool
+                    iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+                }
             }
+
+            // Gestion du joueur
+            player.update(delta);
+            // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
+            if (player.getPosition().x < 0f)
+                player.setPosition(0f, player.getPosition().y);
+            else if (player.getPosition().x > width - player.getWidth())
+                player.setPosition(width - player.getWidth(), player.getPosition().y);
+
+            // Gestion des tirs du joueur
+            for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext(); ) {
+                Shot shot = iterator.next();
+                shot.update(delta);
+                if (outOfWorld(shot)) {    // Si le tir sort du monde,
+                    shotPool.free(shot);  // on le remet dans le pool
+                    iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
+                }
+            }
+
+            // Gestion des tirs des ennemis
+            for (Iterator<Shot> iterator = enemyShots.iterator(); iterator.hasNext(); ) {
+                Shot shot = iterator.next();
+                shot.update(delta);
+                if (outOfWorld(shot)) {    // Si le tir sort du monde,
+                    shotPool.free(shot);  // on le remet dans le pool
+                    iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
+                }
+            }
+
+            // Eventuellement, on genere des ennemis
+            for (IEnemyGenerator enemyGenerator : enemyGenerators)
+                enemyGenerator.generateEnemy(this, delta);
+
+            // On verifie les collisions
+            checkCollisions();
         }
 
-        // Gestion du joueur
-        player.update(delta);
-        // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
-        if (player.getPosition().x < 0f)
-            player.setPosition(0f, player.getPosition().y);
-        else if (player.getPosition().x > width - player.getWidth())
-            player.setPosition(width - player.getWidth(), player.getPosition().y);
-
-        // Gestion des tirs du joueur
-        for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext();) {
-            Shot shot = iterator.next();
-            shot.update(delta);
-            if (outOfWorld(shot)) {    // Si le tir sort du monde,
-                shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
-            }
-        }
-
-        // Gestion des tirs des ennemis
-        for (Iterator<Shot> iterator = enemyShots.iterator(); iterator.hasNext();) {
-            Shot shot = iterator.next();
-            shot.update(delta);
-            if (outOfWorld(shot)) {    // Si le tir sort du monde,
-                shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
-            }
-        }
-
-        // Eventuellement, on genere des ennemis
-        for (IEnemyGenerator enemyGenerator : enemyGenerators)
-            enemyGenerator.generateEnemy(this, delta);
-
-        // On verifie les collisions
-        checkCollisions();
     }
 
     private void checkCollisions() {
@@ -257,6 +266,17 @@ public class World {
                 }
             }
         }
+
+
     }
+
+
+    /**
+     * Inverse le boolén pause
+     */
+    public void pause() {
+        this.pause = !pause;
+    }
+
 
 }
