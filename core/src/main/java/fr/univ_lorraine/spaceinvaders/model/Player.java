@@ -46,6 +46,7 @@ public class Player extends GameMoveableElement {
             shooter.shoot(this.position);
     }
 
+
     /**
      * Empeche les deplacements verticaux
      * et stoppe le mouvement du vaisseau apres l'avoir deplace.

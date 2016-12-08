@@ -43,6 +43,9 @@ public class GameListener implements InputProcessor {
             case Input.Keys.SPACE:
                 world.getPlayer().shoot();
                 break;
+            case Input.Keys.P:
+                world.pause();
+                break;
         }
         return false;
     }
