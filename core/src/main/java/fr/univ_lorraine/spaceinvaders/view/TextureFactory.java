@@ -22,6 +22,12 @@ public class TextureFactory {
 
     private TextureRegion laserRed;
 
+    private TextureRegion fullHeart;
+
+    private TextureRegion midHeart;
+
+    private TextureRegion emptyHeart;
+
     private TextureFactory() {
         background = new TextureRegion(new Texture(Gdx.files.internal("images/starBackground.png")));
         menuBackground = new TextureRegion(new Texture(Gdx.files.internal("images/menuBackground.png")));
@@ -31,6 +37,9 @@ public class TextureFactory {
         enemyShip.flip(false, true);
         laserGreen = new TextureRegion(new Texture(Gdx.files.internal("images/laserGreen.png")));
         laserRed = new TextureRegion(new Texture(Gdx.files.internal("images/laserRed.png")));
+        fullHeart = new TextureRegion(new Texture(Gdx.files.internal("images/fullHeart.png")));
+        midHeart = new TextureRegion(new Texture(Gdx.files.internal("images/midHeart.png")));
+        emptyHeart = new TextureRegion(new Texture(Gdx.files.internal("images/emptyHeart.png")));
     }
 
     public static TextureFactory getInstance() {
@@ -59,5 +68,17 @@ public class TextureFactory {
 
     public TextureRegion getLaserRed() {
         return laserRed;
+    }
+
+    public TextureRegion getFullHeart() {
+        return fullHeart;
+    }
+
+    public TextureRegion getMidHeart() {
+        return midHeart;
+    }
+
+    public TextureRegion getEmptyHeart() {
+        return emptyHeart;
     }
 }

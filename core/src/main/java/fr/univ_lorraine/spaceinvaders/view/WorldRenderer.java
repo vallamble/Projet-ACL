@@ -1,12 +1,15 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
+import fr.univ_lorraine.spaceinvaders.model.Player;
 import fr.univ_lorraine.spaceinvaders.model.Shot;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
@@ -38,6 +41,8 @@ public class WorldRenderer {
      */
     private float ppux, ppuy;
 
+    private float worldOriginX, worldOriginY;
+
     /**
      * Active/desactive l'affichage des boundingBox.
      */
@@ -50,15 +55,17 @@ public class WorldRenderer {
         camera = new OrthographicCamera();
         ppux = 95f;
         ppuy = 95f;
-        viewport = new FitViewport(world.getWidth() * ppux, world.getHeight() * ppuy, camera);
+        worldOriginX = 0f;
+        worldOriginY = 1f;
+        viewport = new FitViewport((world.getWidth() + worldOriginX) * ppux, (world.getHeight() + worldOriginY) * ppuy, camera);
         viewport.apply();
-        camera.position.set(world.getWidth() * ppux / 2, world.getHeight() * ppuy / 2, 0);
+        camera.position.set((world.getWidth() + worldOriginX) * ppuy / 2, (world.getHeight() + worldOriginY) * ppuy / 2, 0);
         showBoundingBox = false;
 
-        playerDrawer = new PlayerDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
-        enemyDrawer = new EnemyDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
-        playerShotDrawer = new PlayerShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
-        enemyShotDrawer = new EnemyShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy);
+        playerDrawer = new PlayerDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldOriginX, worldOriginY);
+        enemyDrawer = new EnemyDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldOriginX, worldOriginY);
+        playerShotDrawer = new PlayerShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldOriginX, worldOriginY);
+        enemyShotDrawer = new EnemyShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldOriginX, worldOriginY);
     }
 
     public void setWorld(World world) {
@@ -71,8 +78,12 @@ public class WorldRenderer {
      */
     public void render() {
         spriteBatch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
         spriteBatch.begin();
+
         drawBackground();
+
         playerDrawer.draw(world.getPlayer());
         for (Enemy enemy : world.getEnemies())
             enemyDrawer.draw(enemy);
@@ -83,7 +94,7 @@ public class WorldRenderer {
         spriteBatch.end();
 
         if (showBoundingBox) {
-            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.setColor(Color.RED);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             playerDrawer.drawBoundingBox(world.getPlayer());
             for (Enemy enemy : world.getEnemies())
@@ -92,10 +103,45 @@ public class WorldRenderer {
                 playerShotDrawer.drawBoundingBox(shot);
             shapeRenderer.end();
         }
+
+        drawInterface();
     }
 
     private void drawBackground() {
-        spriteBatch.draw(TextureFactory.getInstance().getBackground(), 0 * ppux, 0 * ppuy, world.getWidth() * ppux, world.getHeight() * ppuy);
+        spriteBatch.draw(TextureFactory.getInstance().getBackground(), worldOriginX * ppux, worldOriginY * ppuy, (world.getWidth() + worldOriginX) * ppux, (world.getHeight() + worldOriginY) * ppuy);
+    }
+
+    /**
+     * Dessine l'interface sur l'ecran principal.
+     */
+    private void drawInterface() {
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // On dessine un rectangle noir en bas du monde afin de cacher les elements sortant du monde
+        shapeRenderer.rect(0 * ppux, 0 * ppuy, world.getWidth() * ppux, worldOriginY * ppuy);
+        shapeRenderer.end();
+        // On dessine les coeurs representants la vue du joueur
+        spriteBatch.begin();
+        drawPlayerLife();
+        spriteBatch.end();
+    }
+
+    private void drawPlayerLife() {
+        float heartHeight = worldOriginY*0.95f;
+        float heightWidthRatio = 1.1521f;
+        float heartWidth = heartHeight * heightWidthRatio;
+
+        Player player = world.getPlayer();
+        for (int i=1 ; i <= player.getMaxLife() ; i++ ) {
+            float decalageHori = heartWidth * 1.05f * (i-1);
+            TextureRegion toDraw;
+            if (player.getLife() >= i)
+                toDraw = TextureFactory.getInstance().getFullHeart();
+            else
+                toDraw = TextureFactory.getInstance().getEmptyHeart();
+
+            spriteBatch.draw(toDraw, (0 + decalageHori) * ppux, 0 * ppuy, heartWidth * ppuy, heartHeight * ppux);
+        }
     }
 
     public void resize(int width, int height) {

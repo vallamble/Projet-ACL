@@ -65,7 +65,7 @@ public class World {
         //playerShooter.addShotCharacteristics(new ShotCharacteristics(playerShot, player.getWidth() / 2 - playerShot.getWidth() / 2, player.getHeight()));
 
         player.setShooter(playerShooter);
-        player.setLife(4);
+        player.setMaxLife(4);
 
         playerShots = new ArrayList<Shot>();
 

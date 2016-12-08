@@ -11,8 +11,8 @@ import fr.univ_lorraine.spaceinvaders.model.GameElement;
  */
 public class EnemyDrawer extends GameElementDrawer {
 
-    public EnemyDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
-        super(sn, sr, ppux, ppuy);
+    public EnemyDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy, float worldOriginX, float worldOriginY) {
+        super(sn, sr, ppux, ppuy, worldOriginX, worldOriginY);
     }
 
     @Override

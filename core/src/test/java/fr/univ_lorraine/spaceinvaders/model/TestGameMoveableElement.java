@@ -134,7 +134,7 @@ public class TestGameMoveableElement {
     public void testCollisionBetweenPlayerAndShot() {
         gameMoveableElement = new Player(10f,10f,20f,20f,5);
         otherElement = new Shot(10f,10f,20f,20f,5,1);
-        ((Player)gameMoveableElement).setLife(5);
+        gameMoveableElement.setMaxLife(5);
         otherElement.setPosition(gameMoveableElement.getPosition().x + 1, gameMoveableElement.getPosition().y + 1);
         assertTrue(gameMoveableElement.hasCollision(otherElement));
         gameMoveableElement.handleCollision(otherElement);
@@ -145,7 +145,7 @@ public class TestGameMoveableElement {
     public void testCollisionBetweenPlayerAndEnemy() {
         gameMoveableElement = new Player(10f,10f,20f,20f,5);
         otherElement = new Enemy(10f,10f,20f,20f,5);
-        ((Player)gameMoveableElement).setLife(5);
+        gameMoveableElement.setMaxLife(5);
         assertTrue(gameMoveableElement.hasCollision(otherElement));
         gameMoveableElement.handleCollision(otherElement);
         otherElement.handleCollision(gameMoveableElement);

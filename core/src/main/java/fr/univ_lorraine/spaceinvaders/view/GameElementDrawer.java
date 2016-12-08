@@ -15,23 +15,27 @@ public abstract class GameElementDrawer {
 
     private ShapeRenderer shapeRenderer;
 
+    private float worldOriginX, worldOriginY;
+
     private float ppux, ppuy;
 
-    public GameElementDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy) {
+    public GameElementDrawer(SpriteBatch sn, ShapeRenderer sr, float ppux, float ppuy, float worldOriginX, float worldOriginY) {
         this.spriteBatch = sn;
         this.shapeRenderer = sr;
         this.ppux = ppux;
         this.ppuy = ppuy;
+        this.worldOriginX = worldOriginX;
+        this.worldOriginY = worldOriginY;
     }
 
     protected abstract TextureRegion getTexture(GameElement gameElement);
 
     public void draw(GameElement gameElement) {
-        spriteBatch.draw(getTexture(gameElement), gameElement.getPosition().x * ppux, gameElement.getPosition().y * ppuy, gameElement.getWidth() * ppux, gameElement.getHeight() * ppuy);
+        spriteBatch.draw(getTexture(gameElement), (gameElement.getPosition().x + worldOriginX) * ppux, (gameElement.getPosition().y + worldOriginY) * ppuy, gameElement.getWidth() * ppux, gameElement.getHeight() * ppuy);
     }
 
     public void drawBoundingBox(GameElement gameElement) {
-        shapeRenderer.rect(gameElement.getBoundingBox().x * ppux, gameElement.getBoundingBox().y * ppuy, gameElement.getBoundingBox().getWidth() * ppux, gameElement.getBoundingBox().getHeight() * ppuy);
+        shapeRenderer.rect((gameElement.getBoundingBox().x + worldOriginX) * ppux, (gameElement.getBoundingBox().y + worldOriginX) * ppuy, gameElement.getBoundingBox().getWidth() * ppux, gameElement.getBoundingBox().getHeight() * ppuy);
     }
 
 }
