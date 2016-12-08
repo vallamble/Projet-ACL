@@ -120,4 +120,36 @@ public class TestGameMoveableElement {
         assertTrue(otherElement.hasCollision(gameMoveableElement));
     }
 
+    @Test
+    public void testCollisionBetweenEnemyAndShot() {
+        gameMoveableElement = new Enemy(10f,10f,20f,20f,5);
+        otherElement = new Shot(10f,10f,20f,20f,5,1);
+        otherElement.setPosition(gameMoveableElement.getPosition().x + 1, gameMoveableElement.getPosition().y + 1);
+        assertTrue(gameMoveableElement.hasCollision(otherElement));
+        gameMoveableElement.handleCollision(otherElement);
+        assertTrue(gameMoveableElement.life <= 0);
+    }
+
+    @Test
+    public void testCollisionBetweenPlayerAndShot() {
+        gameMoveableElement = new Player(10f,10f,20f,20f,5);
+        otherElement = new Shot(10f,10f,20f,20f,5,1);
+        ((Player)gameMoveableElement).setLife(5);
+        otherElement.setPosition(gameMoveableElement.getPosition().x + 1, gameMoveableElement.getPosition().y + 1);
+        assertTrue(gameMoveableElement.hasCollision(otherElement));
+        gameMoveableElement.handleCollision(otherElement);
+        assertTrue(gameMoveableElement.life==4);
+    }
+
+    @Test
+    public void testCollisionBetweenPlayerAndEnemy() {
+        gameMoveableElement = new Player(10f,10f,20f,20f,5);
+        otherElement = new Enemy(10f,10f,20f,20f,5);
+        ((Player)gameMoveableElement).setLife(5);
+        assertTrue(gameMoveableElement.hasCollision(otherElement));
+        gameMoveableElement.handleCollision(otherElement);
+        otherElement.handleCollision(gameMoveableElement);
+        assertTrue(gameMoveableElement.life == 0);
+        assertTrue(otherElement.life==0);
+    }
 }
