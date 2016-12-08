@@ -12,7 +12,19 @@ public class TextureFactory {
 
     private TextureRegion menuBackground;
 
-    private TextureRegion menuRectangle;
+    private TextureRegion menuBoutonLancer;
+
+    private TextureRegion menuBoutonLancerSelect;
+
+    private TextureRegion menuBoutonQuitter;
+
+    private TextureRegion menuBoutonQuitterSelect;
+
+    private TextureRegion menuBoutonScores;
+
+    private TextureRegion menuBoutonScoresSelect;
+
+    private TextureRegion boutonPause;
 
     private TextureRegion player;
 
@@ -31,7 +43,13 @@ public class TextureFactory {
     private TextureFactory() {
         background = new TextureRegion(new Texture(Gdx.files.internal("images/starBackground.png")));
         menuBackground = new TextureRegion(new Texture(Gdx.files.internal("images/menuBackground.png")));
-        menuRectangle = new TextureRegion(new Texture(Gdx.files.internal("images/rectangleMenu.png")));
+        menuBoutonLancer = new TextureRegion(new Texture(Gdx.files.internal("images/lancer.png")));
+        menuBoutonLancerSelect = new TextureRegion(new Texture(Gdx.files.internal("images/lancerSelect.png")));
+        menuBoutonQuitter = new TextureRegion(new Texture(Gdx.files.internal("images/quitter.png")));
+        menuBoutonQuitterSelect = new TextureRegion(new Texture(Gdx.files.internal("images/quitterSelect.png")));
+        menuBoutonScores = new TextureRegion(new Texture(Gdx.files.internal("images/tableauScore.png")));
+        menuBoutonScoresSelect = new TextureRegion(new Texture(Gdx.files.internal("images/tableauScoreSelect.png")));
+        boutonPause = new TextureRegion(new Texture(Gdx.files.internal("images/boutonPause.png")));
         player = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
         enemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/enemyShip.png")));
         enemyShip.flip(false, true);
@@ -52,7 +70,19 @@ public class TextureFactory {
 
     public TextureRegion getMenuBackground() { return menuBackground; }
 
-    public TextureRegion getMenuRectangle() { return menuRectangle; }
+    public TextureRegion getMenuBoutonLancer() { return menuBoutonLancer; }
+
+    public TextureRegion getMenuBoutonLancerSelect() { return menuBoutonLancerSelect; }
+
+    public TextureRegion getMenuBoutonQuitter() { return menuBoutonQuitter; }
+
+    public TextureRegion getMenuBoutonQuitterSelect() { return menuBoutonQuitterSelect; }
+
+    public TextureRegion getMenuBoutonScores() { return menuBoutonScores; }
+
+    public TextureRegion getMenuBoutonScoresSelect() { return menuBoutonScoresSelect; }
+
+    public TextureRegion getBoutonPause() { return boutonPause; }
 
     public TextureRegion getPlayer() {
         return player;

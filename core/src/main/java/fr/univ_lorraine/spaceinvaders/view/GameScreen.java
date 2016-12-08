@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import java.util.ArrayList;
 
 import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
-import fr.univ_lorraine.spaceinvaders.controller.GameListener;
 import fr.univ_lorraine.spaceinvaders.model.AbstractShooter;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.EnemyShooterWithCooldown;
@@ -26,8 +25,6 @@ public class GameScreen extends AbstractScreen {
     private World world;
 
     private WorldRenderer worldRenderer;
-
-    private GameListener gameListener;
 
     /**
      * Permet d'afficher les fps.
@@ -63,8 +60,6 @@ public class GameScreen extends AbstractScreen {
         world.addEnemyGenerator(enemyGenerator);
 
         worldRenderer = new WorldRenderer(world);
-        gameListener = new GameListener(world);
-        Gdx.input.setInputProcessor(gameListener);
 
         fpsLogger = new FPSLogger();
         showFPS = false;
@@ -92,7 +87,7 @@ public class GameScreen extends AbstractScreen {
         world.addEnemyGenerator(enemyGenerator);
 
         worldRenderer.setWorld(world);
-        gameListener.setWorld(world);
+        game.getGameListener().setWorld(world);
     }
 
     @Override
@@ -102,7 +97,7 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // On verifie si une touche est maintenue
-        gameListener.checkHeldKey();
+        game.getGameListener().checkHeldKey();
 
         world.update(delta);    // On met a jour le monde
 
@@ -128,7 +123,12 @@ public class GameScreen extends AbstractScreen {
     public void dispose() {
         worldRenderer = null;
         world = null;
-        gameListener = null;
         fpsLogger = null;
+    }
+
+    public World getWorld() { return world; }
+
+    public void escape() {
+        game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
     }
 }

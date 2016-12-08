@@ -168,7 +168,6 @@ public class World {
 
         if (!pause) {
 
-
             // Gestion des ennemis
             for (AbstractEnemyController enemyController : enemyControllers)
                 enemyController.control();
@@ -281,9 +280,8 @@ public class World {
     /**
      * Inverse le boolén pause
      */
-    public void pause() {
-        this.pause = !pause;
-    }
+    public void pause() { this.pause = !pause; }
 
+    public boolean getPause() { return pause; }
 
 }

@@ -1,25 +1,33 @@
 package fr.univ_lorraine.spaceinvaders;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+
 import fr.univ_lorraine.spaceinvaders.view.GameScreen;
+import fr.univ_lorraine.spaceinvaders.controller.GameListener;
 import fr.univ_lorraine.spaceinvaders.view.MenuScreen;
+import fr.univ_lorraine.spaceinvaders.controller.MenuListener;
 
 /**
  * Classe principale du jeu gerant les differents ecrans.
  */
 public class SpaceInvadersGame extends Game {
 
-	public enum ScreenEnum { GAME_SCREEN,MENU_SCREEN }
+	public enum ScreenEnum { GAME_SCREEN, MENU_SCREEN }
 
 	GameScreen gameScreen;
+	GameListener gameListener;
 	MenuScreen menuScreen;
+	MenuListener menuListener;
 
 
 	@Override
 	public void create () {
-		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
-		setScreen(gameScreen);
+		gameListener = new GameListener(gameScreen);
+		menuScreen = new MenuScreen(this);
+		menuListener = new MenuListener(menuScreen);
+		changeScreen(ScreenEnum.MENU_SCREEN);
 	}
 
     /**
@@ -29,15 +37,20 @@ public class SpaceInvadersGame extends Game {
     public void changeScreen(ScreenEnum screen) {
         switch(screen) {
             case GAME_SCREEN :
+				Gdx.input.setInputProcessor(gameListener);
 				setScreen(gameScreen);
+				gameScreen.resetGame();
 				break;
 			case MENU_SCREEN :
+				Gdx.input.setInputProcessor(menuListener);
 				setScreen(menuScreen);
 				break;
 			default:
 				setScreen(menuScreen);
         }
     }
+
+	public GameListener getGameListener() { return gameListener; }
 
 	@Override
 	public void dispose () {

@@ -98,6 +98,8 @@ public class WorldRenderer {
             playerShotDrawer.draw(shot);
         for (Shot shot : world.getEnemyShots())
             enemyShotDrawer.draw(shot);
+        if(world.getPause())
+            spriteBatch.draw(TextureFactory.getInstance().getBoutonPause(), 0, world.getHeight() * ppuy - 3 *ppuy, 3 * ppuy, 3 * ppuy);
         spriteBatch.end();
 
         if (showBoundingBox) {
