@@ -1,5 +1,6 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.Player;
@@ -23,6 +26,8 @@ public class WorldRenderer {
     private SpriteBatch spriteBatch;
 
     private ShapeRenderer shapeRenderer;
+
+    private BitmapFont fontBatch;
 
     private OrthographicCamera camera;
 
@@ -52,6 +57,8 @@ public class WorldRenderer {
         world = w;
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        fontBatch = new BitmapFont(Gdx.files.internal("fonts/test.fnt"));
+        fontBatch.getData().setScale(5,5);
         camera = new OrthographicCamera();
         ppux = 95f;
         ppuy = 95f;
@@ -123,6 +130,9 @@ public class WorldRenderer {
         // On dessine les coeurs representants la vue du joueur
         spriteBatch.begin();
         drawPlayerLife();
+        // On affiche le score
+        String score = Integer.toString(world.getPlayerScore());
+        fontBatch.draw(spriteBatch, score, 0 * ppux, 1.2f * ppuy);
         spriteBatch.end();
     }
 
@@ -132,15 +142,15 @@ public class WorldRenderer {
         float heartWidth = heartHeight * heightWidthRatio;
 
         Player player = world.getPlayer();
-        for (int i=1 ; i <= player.getMaxLife() ; i++ ) {
-            float decalageHori = heartWidth * 1.05f * (i-1);
+        for (int i=player.getMaxLife() ; i >=1 ; i-- ) {
+            float decalageHori = heartWidth * 1.05f * (player.getMaxLife() - i)*-1;
             TextureRegion toDraw;
             if (player.getLife() >= i)
                 toDraw = TextureFactory.getInstance().getFullHeart();
             else
                 toDraw = TextureFactory.getInstance().getEmptyHeart();
 
-            spriteBatch.draw(toDraw, (0 + decalageHori) * ppux, 0 * ppuy, heartWidth * ppuy, heartHeight * ppux);
+            spriteBatch.draw(toDraw, (world.getWidth() - heartWidth + decalageHori) * ppux, 0 * ppuy, heartWidth * ppuy, heartHeight * ppux);
         }
     }
 

@@ -45,6 +45,12 @@ public class World {
 
     private boolean endGame = false;
 
+    private int playerScore = 0;
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
     public World(float w, float h) {
 		width = w;
 		height = h;
@@ -215,7 +221,7 @@ public class World {
 
     }
 
-    private void checkCollisions() {
+    protected void checkCollisions() {
         // On parcourt les ennemis pour verifier leurs collisions
         for (Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();) {
             Enemy enemy = enemyIterator.next();
@@ -245,6 +251,7 @@ public class World {
 
             // Finalement, on verifie l'etat de l'ennemi
             if (enemy.isDead()) {       // Si l'ennemi est mort
+                playerScore += enemy.getScore();
                 enemyPool.free(enemy);  // on le remet dans le pool
                 enemyIterator.remove(); // et on l'enleve de la liste d'ennemis actifs
             }

@@ -11,14 +11,22 @@ public class Enemy extends GameMoveableElement {
 
     public Enemy() {
         super();
+        score = 100;
     }
 
     public Enemy(float x, float y, float w, float h, float s) {
         super(x, y, w, h, s);
+        score = 100;
     }
 
     public AbstractShooter getShooter() {
         return shooter;
+    }
+
+    private int score;
+
+    public int getScore() {
+        return score;
     }
 
     public void setShooter(AbstractShooter s) {
