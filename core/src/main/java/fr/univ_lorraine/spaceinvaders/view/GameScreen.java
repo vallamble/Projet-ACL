@@ -81,7 +81,7 @@ public class GameScreen extends AbstractScreen {
         EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
         Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, -enemyAttributes.getHeight()));
 
         enemyAttributes.setShooter(enemyShooter);
 
@@ -136,5 +136,13 @@ public class GameScreen extends AbstractScreen {
 
     public void escape() {
         game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
+    }
+
+    public void pauseMusic() {
+        menuMusic.pause();
+    }
+
+    public void playMusic() {
+        menuMusic.play();
     }
 }
