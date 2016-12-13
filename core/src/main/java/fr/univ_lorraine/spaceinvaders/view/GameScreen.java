@@ -34,7 +34,10 @@ public class GameScreen extends AbstractScreen {
      */
     private boolean showFPS;
 
-    private Music menuMusic;
+    /**
+     * Musique principale présente pendant le jeu.
+     */
+    private Music mainThemeMusic;
 
     public GameScreen(SpaceInvadersGame g) {
         super(g);
@@ -64,15 +67,15 @@ public class GameScreen extends AbstractScreen {
         fpsLogger = new FPSLogger();
         showFPS = false;
 
-        menuMusic = SoundFactory.getInstance().getMenuMusic();
+        mainThemeMusic = SoundFactory.getInstance().getMainThemeMusic();
     }
 
     public void resetGame() {
         world = new World(15f, 20f);
 
-        menuMusic.dispose();
-        menuMusic.play();
-        menuMusic.setLooping(true);
+        mainThemeMusic.dispose();
+        mainThemeMusic.play();
+        mainThemeMusic.setLooping(true);
 
         Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
         enemyAttributes.setIsMoving(true);
@@ -139,10 +142,10 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void pauseMusic() {
-        menuMusic.pause();
+        mainThemeMusic.pause();
     }
 
     public void playMusic() {
-        menuMusic.play();
+        mainThemeMusic.play();
     }
 }

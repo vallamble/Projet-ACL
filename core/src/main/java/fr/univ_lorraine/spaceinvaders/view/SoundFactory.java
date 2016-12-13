@@ -10,17 +10,17 @@ public class SoundFactory {
 
     private static SoundFactory instance = new SoundFactory();
 
-    private Music menuMusic;
+    private Music mainThemeMusic;
 
     private SoundFactory() {
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("son/menu.mp3"));
+        mainThemeMusic = Gdx.audio.newMusic(Gdx.files.internal("son/menu.mp3"));
     }
 
     public static SoundFactory getInstance() {
         return instance;
     }
 
-    public Music getMenuMusic() {
-        return menuMusic;
+    public Music getMainThemeMusic() {
+        return mainThemeMusic;
     }
 }

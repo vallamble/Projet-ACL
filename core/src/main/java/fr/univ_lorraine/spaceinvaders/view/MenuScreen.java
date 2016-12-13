@@ -18,20 +18,13 @@ public class MenuScreen extends AbstractScreen {
     public enum MenuChoice { LANCER_PARTIE, MEILLEURES_SCORES, QUITTER };
 
     /**
-     * Permet d'afficher les fps.
-     */
-    private FPSLogger fpsLogger;
-
-    /**
      * Active/desactive le fpsLogger.
      */
     private boolean showFPS;
 
     public MenuScreen(SpaceInvadersGame g) {
         super(g);
-
         menuRenderer = new MenuRenderer(this);
-        fpsLogger = new FPSLogger();
         showFPS = false;
     }
 
@@ -48,11 +41,6 @@ public class MenuScreen extends AbstractScreen {
         menuRenderer.render(); // et on l'affiche
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
-
-
-        // On affiche les fps si necessaire
-        if (showFPS)
-            fpsLogger.log();
     }
 
     public void setChoice(int num) {
