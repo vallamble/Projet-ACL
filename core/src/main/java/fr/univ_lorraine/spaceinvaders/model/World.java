@@ -64,7 +64,7 @@ public class World {
 		height = h;
         worldLimits = new Rectangle(0f, 0f, width, height);
 
-        player = new Player(0f, 0f, 1.2f, 1.2f*75f/99f, 5f);
+        player = new Player(0f, 0f, 1.2f, 1.2f*75f/99f, 20f);
         // On positionne le vaisseau du joueur en bas au milieu du monde
         player.setPosition(this.width/2 - player.getWidth()/2, 0);
         PlayerShooterWithCooldown playerShooter = new PlayerShooterWithCooldown(this, 0.3f);
