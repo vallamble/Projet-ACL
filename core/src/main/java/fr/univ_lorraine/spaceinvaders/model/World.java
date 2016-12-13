@@ -1,10 +1,7 @@
 package fr.univ_lorraine.spaceinvaders.model;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Pool;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,10 +27,6 @@ public class World {
     private List<AbstractEnemyController> enemyControllers;
 
     private boolean pause = false;
-
-
-
-    private Music music = Gdx.audio.newMusic(Gdx.files.internal("son/menu.mp3"));
 
     /**
      * Rectangle representant les limites du monde.
@@ -291,9 +284,5 @@ public class World {
     public void pause() { this.pause = !pause; }
 
     public boolean getPause() { return pause; }
-
-    public Music getMusic() {
-        return music;
-    }
 
 }

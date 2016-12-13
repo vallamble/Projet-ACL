@@ -10,11 +10,11 @@ import fr.univ_lorraine.spaceinvaders.model.World;
 public class GameListener implements InputProcessor {
 
     private World world;
-    private GameScreen game;
+    private GameScreen gameScreen;
 
     public GameListener(GameScreen g) {
-        game = g;
-        world = game.getWorld();
+        gameScreen = g;
+        world = gameScreen.getWorld();
     }
 
     public void setWorld(World world) {
@@ -49,13 +49,13 @@ public class GameListener implements InputProcessor {
             case Input.Keys.P:
                 world.pause();
                 if(world.getPause())
-                    world.getMusic().pause();
+                    gameScreen.pauseMusic();
                 else
-                    world.getMusic().play();
+                    gameScreen.playMusic();
                 break;
             case Input.Keys.ESCAPE:
                 if(world.getPause()) {
-                    game.escape();
+                    gameScreen.escape();
                     world.pause();
                 }
                 break;

@@ -1,13 +1,11 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 
-import java.util.ArrayList;
-
 import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
-import fr.univ_lorraine.spaceinvaders.model.AbstractShooter;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.EnemyShooterWithCooldown;
 import fr.univ_lorraine.spaceinvaders.model.GameMoveableElement;
@@ -36,6 +34,8 @@ public class GameScreen extends AbstractScreen {
      */
     private boolean showFPS;
 
+    private Music menuMusic;
+
     public GameScreen(SpaceInvadersGame g) {
         super(g);
 
@@ -63,14 +63,16 @@ public class GameScreen extends AbstractScreen {
 
         fpsLogger = new FPSLogger();
         showFPS = false;
+
+        menuMusic = SoundFactory.getInstance().getMenuMusic();
     }
 
     public void resetGame() {
-        world.getMusic().dispose();
         world = new World(15f, 20f);
 
-        world.getMusic().play();
-        world.getMusic().setLooping(true);
+        menuMusic.dispose();
+        menuMusic.play();
+        menuMusic.setLooping(true);
 
         Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
         enemyAttributes.setIsMoving(true);
@@ -79,7 +81,7 @@ public class GameScreen extends AbstractScreen {
         EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
         Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, - enemyAttributes.getHeight()));
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, -enemyAttributes.getHeight()));
 
         enemyAttributes.setShooter(enemyShooter);
 
@@ -134,5 +136,13 @@ public class GameScreen extends AbstractScreen {
 
     public void escape() {
         game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
+    }
+
+    public void pauseMusic() {
+        menuMusic.pause();
+    }
+
+    public void playMusic() {
+        menuMusic.play();
     }
 }
