@@ -38,26 +38,26 @@ public class GameListener implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.LEFT:
-                world.getPlayer().turnLeft();
+                if (!gameScreen.isGamePaused())
+                    world.getPlayer().turnLeft();
                 break;
             case Input.Keys.RIGHT:
-                world.getPlayer().turnRight();
+                if (!gameScreen.isGamePaused())
+                    world.getPlayer().turnRight();
                 break;
             case Input.Keys.SPACE:
-                world.getPlayer().shoot();
+                if (!gameScreen.isGamePaused())
+                    world.getPlayer().shoot();
                 break;
             case Input.Keys.P:
-                world.pause();
-                if(world.getPause())
-                    gameScreen.pauseMusic();
+                if (gameScreen.isGamePaused())
+                    gameScreen.resumeGame();
                 else
-                    gameScreen.playMusic();
+                    gameScreen.pauseGame();
                 break;
             case Input.Keys.ESCAPE:
-                if(world.getPause()) {
-                    gameScreen.escape();
-                    world.pause();
-                }
+                if(gameScreen.isGamePaused())
+                    gameScreen.goToMainMenu();
                 break;
         }
         return false;
