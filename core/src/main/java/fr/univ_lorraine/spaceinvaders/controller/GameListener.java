@@ -10,6 +10,7 @@ import fr.univ_lorraine.spaceinvaders.model.World;
 public class GameListener implements InputProcessor {
 
     private World world;
+
     private GameScreen gameScreen;
 
     public GameListener(GameScreen g) {

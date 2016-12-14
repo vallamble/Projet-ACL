@@ -1,6 +1,5 @@
 package fr.univ_lorraine.spaceinvaders.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
@@ -11,12 +10,11 @@ import fr.univ_lorraine.spaceinvaders.view.MenuScreen;
  */
 public class MenuListener implements InputProcessor {
 
-    MenuScreen menu;
+    private MenuScreen menu;
 
     public MenuListener(MenuScreen menuScreen) {
         menu = menuScreen;
     }
-
 
     @Override
     public boolean keyDown(int keycode) {

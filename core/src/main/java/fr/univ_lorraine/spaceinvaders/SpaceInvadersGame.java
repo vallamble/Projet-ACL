@@ -15,10 +15,13 @@ public class SpaceInvadersGame extends Game {
 
 	public enum ScreenEnum { GAME_SCREEN, MENU_SCREEN }
 
-	GameScreen gameScreen;
-	GameListener gameListener;
-	MenuScreen menuScreen;
-	MenuListener menuListener;
+	private GameScreen gameScreen;
+
+	private GameListener gameListener;
+
+	private MenuScreen menuScreen;
+
+	private MenuListener menuListener;
 
 
 	@Override
