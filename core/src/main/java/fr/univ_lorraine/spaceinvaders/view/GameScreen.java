@@ -131,7 +131,7 @@ public class GameScreen extends AbstractScreen {
 
     public void resetGame() {
         world = new World(15f, 20f);
-
+        pause = false;
         mainThemeMusic.dispose();
         mainThemeMusic.play();
         mainThemeMusic.setLooping(true);
@@ -170,6 +170,7 @@ public class GameScreen extends AbstractScreen {
             // on verifie si une touche est maintenue
             game.getGameListener().checkHeldKey();
             world.update(delta);    // et on met a jour le monde
+            mainThemeMusic.play();
         }
 
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -180,6 +181,7 @@ public class GameScreen extends AbstractScreen {
             spriteBatch.begin();// on affiche l'icone de pause
             float boutonPauseWidth = 3 * ppux;
             float boutonPauseHeight = 3 * ppuy;
+            mainThemeMusic.pause();
             spriteBatch.draw(TextureFactory.getInstance().getBoutonPause(), viewport.getWorldWidth()/2 - boutonPauseWidth/2, viewport.getWorldHeight()/2 - boutonPauseHeight/2, boutonPauseWidth, boutonPauseHeight);
             fontBatch.getData().setScale(1f);
             glyphLayout.setText(fontBatch, goToMainMenuMessage);
@@ -221,6 +223,10 @@ public class GameScreen extends AbstractScreen {
     public void goToMainMenu() {
         game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
     }
+
+    /*public void goToMainMenu() {
+        game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
+    }*/
 
     public boolean isGamePaused() {
         return pause;
