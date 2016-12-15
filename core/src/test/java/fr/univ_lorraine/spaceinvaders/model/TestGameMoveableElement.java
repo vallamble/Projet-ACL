@@ -149,7 +149,7 @@ public class TestGameMoveableElement {
         assertTrue(gameMoveableElement.hasCollision(otherElement));
         gameMoveableElement.handleCollision(otherElement);
         otherElement.handleCollision(gameMoveableElement);
-        assertTrue(gameMoveableElement.life == 0);
-        assertTrue(otherElement.life==0);
+        assertTrue(gameMoveableElement.life == gameMoveableElement.maxLife - otherElement.getCollisionDamages());
+        assertTrue(otherElement.isDead());
     }
 }
