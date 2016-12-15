@@ -109,6 +109,13 @@ public class World {
         return !worldLimits.intersects(gameElement.getBoundingBox());
     }
 
+    private void checkPlayerPosition() {
+        if (player.getPosition().x < 0f)
+            player.setPosition(0f, player.getPosition().y);
+        else if (player.getPosition().x > width - player.getWidth())
+            player.setPosition(width - player.getWidth(), player.getPosition().y);
+    }
+
     public float getWidth() {
         return width;
     }
@@ -179,7 +186,7 @@ public class World {
 
         // Gestion des ennemis
         for (AbstractEnemyController enemyController : enemyControllers)
-            enemyController.control(this);
+            enemyController.control(delta, this);
 
         for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
             Enemy enemy = iterator.next();
@@ -195,10 +202,7 @@ public class World {
         // Gestion du joueur
         player.update(delta);
         // On verifie que le vaisseau ne sort pas du monde, si c'est le cas, on le repositionne
-        if (player.getPosition().x < 0f)
-            player.setPosition(0f, player.getPosition().y);
-        else if (player.getPosition().x > width - player.getWidth())
-            player.setPosition(width - player.getWidth(), player.getPosition().y);
+        checkPlayerPosition();
 
         // Gestion des tirs du joueur
         for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext(); ) {

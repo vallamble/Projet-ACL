@@ -115,7 +115,7 @@ public class GameScreen extends AbstractScreen {
 
         pause = false;
 
-        goToMainMenuMessage = "Press Escape to return to main menu";
+        goToMainMenuMessage = "Appuyer sur Echap pour retourner au menu principal";
     }
 
     public void resetGame() {
@@ -202,7 +202,7 @@ public class GameScreen extends AbstractScreen {
             float boutonPauseHeight = 3 * ppuy;
             mainThemeMusic.pause();
             spriteBatch.draw(TextureFactory.getInstance().getBoutonPause(), viewport.getWorldWidth()/2 - boutonPauseWidth/2, viewport.getWorldHeight()/2 - boutonPauseHeight/2, boutonPauseWidth, boutonPauseHeight);
-            fontBatch.getData().setScale(1f);
+            fontBatch.getData().setScale(1.5f);
             glyphLayout.setText(fontBatch, goToMainMenuMessage);
             fontBatch.draw(spriteBatch, goToMainMenuMessage, viewport.getWorldWidth()/2 - glyphLayout.width/2, viewport.getWorldHeight()/2 - glyphLayout.height/2 - boutonPauseHeight/2);
             spriteBatch.end();

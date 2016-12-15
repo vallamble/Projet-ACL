@@ -10,7 +10,7 @@ public class SuicideEnemyController extends AbstractEnemyController {
     private static final float SHIFT = 2f;
 
     @Override
-    public void control(World world) {
+    public void control(float delta, World world) {
         for (Enemy enemy : enemies)
             changeDirection(enemy, world);
     }
