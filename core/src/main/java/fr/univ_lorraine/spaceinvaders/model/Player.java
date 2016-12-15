@@ -21,6 +21,10 @@ public class Player extends GameMoveableElement {
         shooter = s;
     }
 
+    public void heal(int heal) {
+        life = (life + heal > maxLife) ? maxLife : life + heal;
+    }
+
     /**
      * Change la direction du vaisseau à gauche et le met en mouvement.
      */
@@ -78,6 +82,11 @@ public class Player extends GameMoveableElement {
             case SHOT:
                 Shot s = (Shot) element;
                 this.life -= s.getDamages();
+                break;
+            case HEAL_BONUS:
+                System.out.println(((HealBonus) element).getHeal());
+                int heal = ((HealBonus)element).getHeal();
+                life = ((life + heal) > maxLife) ? maxLife : life + heal;
                 break;
         }
     }

@@ -24,7 +24,7 @@ public class TestPeriodicEnemyGenerator {
         world = new World(50f, 50f);
         enemyAttributes = new Enemy(0f, 0f, 5f, 5f, 1f);
         timeBetweenGenerations = 1f;
-        periodicEnemyGenerator = new PeriodicEnemyGenerator(enemyAttributes, timeBetweenGenerations);
+        periodicEnemyGenerator = new PeriodicMonoEnemyGenerator(enemyAttributes, timeBetweenGenerations);
         world.getEnemyGenerators().clear();
         world.getEnemyGenerators().add(periodicEnemyGenerator);
         delta = 1f;

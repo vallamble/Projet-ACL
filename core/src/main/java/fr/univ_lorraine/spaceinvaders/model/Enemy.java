@@ -9,6 +9,8 @@ public class Enemy extends GameMoveableElement {
 
     private AbstractShooter shooter;
 
+    private AbstractBonusGenerator bonusGenerator;
+
     public Enemy() {
         super();
         score = 100;
@@ -33,6 +35,12 @@ public class Enemy extends GameMoveableElement {
         shooter = s;
     }
 
+    public AbstractBonusGenerator getBonusGenerator() { return bonusGenerator; }
+
+    public void setBonusGenerator(AbstractBonusGenerator generator) {
+        bonusGenerator = generator;
+    }
+
     public void shoot() {
         if (shooter != null)
             shooter.shoot(this.position);
@@ -49,6 +57,8 @@ public class Enemy extends GameMoveableElement {
                 this.life -= s.getDamages();
                 break;
         }
+        if (life <= 0)
+            onDie();
     }
 
     @Override
@@ -57,12 +67,22 @@ public class Enemy extends GameMoveableElement {
         // On met a jour le shooter
         if (shooter != null)
             shooter.update(delta);
+        // On met à jour le generateur de bonus
+        if (bonusGenerator != null)
+            bonusGenerator.update(delta);
+    }
+
+    public void onDie() {
+        if (bonusGenerator != null)
+            bonusGenerator.generateBonus(position);
     }
 
     public void init(Enemy enemy) {
         super.init(enemy);
         if (enemy.getShooter() != null)
             this.setShooter(enemy.getShooter().copy());
+        if (enemy.getBonusGenerator() != null)
+            this.setBonusGenerator(enemy.getBonusGenerator().copy());
     }
 
     @Override

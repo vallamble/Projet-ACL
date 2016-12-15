@@ -5,7 +5,7 @@ package fr.univ_lorraine.spaceinvaders.model;
  */
 public interface Collidable {
 
-    public enum CollisionType {PLAYER, ENEMY, SHOT};
+    public enum CollisionType {PLAYER, ENEMY, SHOT, HEAL_BONUS};
 
     public CollisionType getCollisionType();
 

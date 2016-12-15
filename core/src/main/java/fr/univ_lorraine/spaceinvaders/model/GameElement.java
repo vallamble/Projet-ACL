@@ -77,6 +77,10 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
         life = maxLife;
     }
 
+	public void setPosition(Vector2 pos) {
+		this.position = new Vector2(pos);
+	}
+
 	public void setPosition(float x, float y) {
         this.position.set(x, y);
         updateBoundingBox();
@@ -100,7 +104,8 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
         this.width = gameElement.width;
         this.height = gameElement.height;
         boundingBox.set(position.x, position.y, width, height);
-		this.life = 1;
+		this.maxLife = gameElement.maxLife;
+		this.life = this.maxLife;
 	}
 
 	/**
@@ -111,6 +116,7 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
 		this.position.set(0f, 0f);
 		this.height = 0f;
 		this.width = 0f;
+		this.maxLife = 0;
 		this.life = 0;
 		updateBoundingBox();
 	}

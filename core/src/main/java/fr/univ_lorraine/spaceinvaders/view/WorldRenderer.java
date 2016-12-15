@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import fr.univ_lorraine.spaceinvaders.model.Bonus;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.Player;
 import fr.univ_lorraine.spaceinvaders.model.Shot;
@@ -34,6 +35,8 @@ public class WorldRenderer {
     private PlayerShotDrawer playerShotDrawer;
 
     private EnemyShotDrawer enemyShotDrawer;
+
+    private BonusDrawer bonusDrawer;
 
     /**
      * Pixels par unite.
@@ -77,6 +80,7 @@ public class WorldRenderer {
         enemyDrawer = new EnemyDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldLeftPadding, worldBottomPadding);
         playerShotDrawer = new PlayerShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldLeftPadding, worldBottomPadding);
         enemyShotDrawer = new EnemyShotDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldLeftPadding, worldBottomPadding);
+        bonusDrawer = new BonusDrawer(spriteBatch, shapeRenderer, ppux, ppuy, worldLeftPadding, worldBottomPadding);
     }
 
     public void setWorld(World world) {
@@ -99,6 +103,8 @@ public class WorldRenderer {
             playerShotDrawer.draw(shot);
         for (Shot shot : world.getEnemyShots())
             enemyShotDrawer.draw(shot);
+        for(Bonus bonus : world.getBonuses())
+            bonusDrawer.draw(bonus);
 
         spriteBatch.end();
 

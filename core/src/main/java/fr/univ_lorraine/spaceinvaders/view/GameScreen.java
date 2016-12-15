@@ -13,10 +13,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
+import fr.univ_lorraine.spaceinvaders.model.Bonus;
+import fr.univ_lorraine.spaceinvaders.model.BonusDropProbability;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
 import fr.univ_lorraine.spaceinvaders.model.EnemyShooterWithCooldown;
 import fr.univ_lorraine.spaceinvaders.model.GameMoveableElement;
-import fr.univ_lorraine.spaceinvaders.model.PeriodicEnemyGenerator;
+import fr.univ_lorraine.spaceinvaders.model.HealBonus;
+import fr.univ_lorraine.spaceinvaders.model.PeriodicMonoEnemyGenerator;
+import fr.univ_lorraine.spaceinvaders.model.RandomBonusGenerator;
 import fr.univ_lorraine.spaceinvaders.model.Shot;
 import fr.univ_lorraine.spaceinvaders.model.ShotCharacteristics;
 import fr.univ_lorraine.spaceinvaders.model.SimpleEnemyController;
@@ -95,7 +99,7 @@ public class GameScreen extends AbstractScreen {
         SimpleEnemyController enemyController = new SimpleEnemyController();
         world.addEnemyController(enemyController);
 
-        PeriodicEnemyGenerator enemyGenerator = new PeriodicEnemyGenerator(enemyAttributes, 1f);
+        PeriodicMonoEnemyGenerator enemyGenerator = new PeriodicMonoEnemyGenerator(enemyAttributes, 1f);
         enemyGenerator.setEnemyController(enemyController);
         world.addEnemyGenerator(enemyGenerator);
 
@@ -136,7 +140,9 @@ public class GameScreen extends AbstractScreen {
         mainThemeMusic.play();
         mainThemeMusic.setLooping(true);
 
+        // Ennemi classique
         Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
+        enemyAttributes.setMaxLife(2);
         enemyAttributes.setIsMoving(true);
         enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
 
@@ -147,10 +153,18 @@ public class GameScreen extends AbstractScreen {
 
         enemyAttributes.setShooter(enemyShooter);
 
+        Bonus healBonus = new HealBonus(0f, 0f, 0.4f*1.1521f, 0.4f, 6f, 1);
+        healBonus.setDirection(GameMoveableElement.Direction.DOWN);
+        BonusDropProbability healDropProbability = new BonusDropProbability(healBonus, 0.1f);  // 10% de chance de drop
+        RandomBonusGenerator randomBonusGenerator = new RandomBonusGenerator(world, enemyAttributes.getWidth()/2 - healBonus.getWidth()/2, 0f);
+        randomBonusGenerator.addBonusDropProbability(healDropProbability);
+
+        enemyAttributes.setBonusGenerator(randomBonusGenerator);
+
         SimpleEnemyController enemyController = new SimpleEnemyController();
         world.addEnemyController(enemyController);
 
-        PeriodicEnemyGenerator enemyGenerator = new PeriodicEnemyGenerator(enemyAttributes, 1f);
+        PeriodicMonoEnemyGenerator enemyGenerator = new PeriodicMonoEnemyGenerator(enemyAttributes, 1f);
         enemyGenerator.setEnemyController(enemyController);
         world.addEnemyGenerator(enemyGenerator);
 

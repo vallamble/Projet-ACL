@@ -22,6 +22,8 @@ public class World {
 
     private List<Shot> enemyShots;
 
+    private List<Bonus> bonuses;
+
     private List<IEnemyGenerator> enemyGenerators;
 
     private List<AbstractEnemyController> enemyControllers;
@@ -91,6 +93,8 @@ public class World {
             }
         };
 
+        bonuses = new ArrayList<Bonus>();
+
         enemyGenerators = new ArrayList<IEnemyGenerator>();
 
         enemyControllers = new ArrayList<AbstractEnemyController>();
@@ -135,6 +139,10 @@ public class World {
 
     public boolean getEndGame() {return endGame;}
 
+    public final List<Bonus> getBonuses() {
+        return bonuses;
+    }
+
     /**
      * Permet d'obtenir un ennemi depuis le Pool.
      * @return Un nouvel ennemi provenant du Pool.
@@ -149,6 +157,10 @@ public class World {
      */
     public Shot obtainShotFromPool() {
         return shotPool.obtain();
+    }
+
+    public void addBonus(Bonus bonus) {
+        bonuses.add(bonus);
     }
 
     public void addEnemyGenerator(IEnemyGenerator enemyGenerator) {
@@ -191,9 +203,9 @@ public class World {
         for (Iterator<Shot> iterator = playerShots.iterator(); iterator.hasNext(); ) {
             Shot shot = iterator.next();
             shot.update(delta);
-            if (outOfWorld(shot)) {    // Si le tir sort du monde,
-                shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
+            if (outOfWorld(shot)) { // Si le tir sort du monde,
+                shotPool.free(shot);// on le remet dans le pool
+                iterator.remove();  // et on l'enleve de la liste d'ennemis actifs
             }
         }
 
@@ -201,9 +213,18 @@ public class World {
         for (Iterator<Shot> iterator = enemyShots.iterator(); iterator.hasNext(); ) {
             Shot shot = iterator.next();
             shot.update(delta);
-            if (outOfWorld(shot)) {    // Si le tir sort du monde,
-                shotPool.free(shot);  // on le remet dans le pool
-                iterator.remove();    // et on l'enleve de la liste d'ennemis actifs
+            if (outOfWorld(shot)) {     // Si le tir sort du monde,
+                shotPool.free(shot);    // on le remet dans le pool
+                iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
+            }
+        }
+
+        // Gestion des bonus
+        for (Iterator<Bonus> iterator = bonuses.iterator(); iterator.hasNext(); ) {
+            Bonus bonus = iterator.next();
+            bonus.update(delta);
+            if (outOfWorld(bonus)) {    // Si le bonus sort du monde,
+                iterator.remove();      // on l'enleve de la liste des bonus
             }
         }
 
@@ -268,6 +289,21 @@ public class World {
             }
         }
 
+        // On verifie les collisions entre le joueur et les bonus
+        for (Iterator<Bonus> bonusIterator = bonuses.iterator(); bonusIterator.hasNext();) {
+            Bonus bonus = bonusIterator.next();
+            if (bonus.hasCollision(player)) {
+                bonus.handleCollision(player);
+                player.handleCollision(bonus);
+                if (player.isDead()) {  // Si le joueur est mort
+                    endGame = true;
+                    return;             // On arrete le jeu
+                }
+                if (bonus.isDead()) {
+                    bonusIterator.remove();
+                }
+            }
+        }
 
     }
 
