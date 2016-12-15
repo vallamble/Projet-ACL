@@ -11,9 +11,9 @@ import java.util.Random;
  */
 public class PeriodicMultiEnemyGenerator implements IEnemyGenerator {
 
-    private Random rng;
+    protected Random rng;
 
-    private List<EnemyPeriodicGeneration> enemyPeriodicGenerations;
+    protected List<EnemyPeriodicGeneration> enemyPeriodicGenerations;
 
     public PeriodicMultiEnemyGenerator() {
         rng = new Random();
@@ -42,11 +42,11 @@ public class PeriodicMultiEnemyGenerator implements IEnemyGenerator {
                 Enemy newEnemy = world.obtainEnemyFromPool();
                 newEnemy.init(enemyAttributes);
                 newEnemy.setPosition(posX, posY);
-                world.getEnemies().add(newEnemy);   // On ajoute l'ennemi au monde
+                world.getEnemies().add(newEnemy);       // On ajoute l'ennemi au monde
                 if (enemyController != null)
                     enemyController.addEnemy(newEnemy); // et au controleur d'ennemi attribue
-
             }
         }
     }
+
 }

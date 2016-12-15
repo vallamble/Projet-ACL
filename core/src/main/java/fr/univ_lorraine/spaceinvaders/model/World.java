@@ -179,13 +179,14 @@ public class World {
 
         // Gestion des ennemis
         for (AbstractEnemyController enemyController : enemyControllers)
-            enemyController.control();
+            enemyController.control(this);
 
         for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
             Enemy enemy = iterator.next();
             enemy.update(delta);
 
             if (outOfWorld(enemy)) {    // Si l'ennemi sort du monde,
+                removeEnemyFromController(enemy);   // on l'enleve du controller
                 enemyPool.free(enemy);  // on le remet dans le pool
                 iterator.remove();      // et on l'enleve de la liste d'ennemis actifs
             }
@@ -236,6 +237,11 @@ public class World {
         checkCollisions();
     }
 
+    private void removeEnemyFromController(Enemy enemy) {
+        for (AbstractEnemyController enemyController : enemyControllers)
+            enemyController.removeEnemy(enemy);
+    }
+
     protected void checkCollisions() {
         // On parcourt les ennemis pour verifier leurs collisions
         for (Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();) {
@@ -267,6 +273,7 @@ public class World {
             // Finalement, on verifie l'etat de l'ennemi
             if (enemy.isDead()) {       // Si l'ennemi est mort
                 playerScore += enemy.getScore();
+                removeEnemyFromController(enemy);   // on l'enleve du controller
                 enemyPool.free(enemy);  // on le remet dans le pool
                 enemyIterator.remove(); // et on l'enleve de la liste d'ennemis actifs
             }

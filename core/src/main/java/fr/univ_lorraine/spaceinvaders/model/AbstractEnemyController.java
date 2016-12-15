@@ -18,6 +18,10 @@ public abstract class AbstractEnemyController {
         enemies.add(enemy);
     }
 
-    public abstract void control();
+    public abstract void control(World world);
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+    }
 
 }

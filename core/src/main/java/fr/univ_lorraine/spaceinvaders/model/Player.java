@@ -77,11 +77,8 @@ public class Player extends GameMoveableElement {
     public void handleCollision(GameElement element) {
         switch (element.getCollisionType()) {
             case ENEMY:
-                this.life = 0;
-                break;
             case SHOT:
-                Shot s = (Shot) element;
-                this.life -= s.getDamages();
+                this.life -= element.getCollisionDamages();
                 break;
             case HEAL_BONUS:
                 System.out.println(((HealBonus) element).getHeal());

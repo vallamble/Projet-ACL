@@ -16,14 +16,18 @@ import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
 import fr.univ_lorraine.spaceinvaders.model.Bonus;
 import fr.univ_lorraine.spaceinvaders.model.BonusDropProbability;
 import fr.univ_lorraine.spaceinvaders.model.Enemy;
+import fr.univ_lorraine.spaceinvaders.model.EnemyPeriodicGeneration;
 import fr.univ_lorraine.spaceinvaders.model.EnemyShooterWithCooldown;
 import fr.univ_lorraine.spaceinvaders.model.GameMoveableElement;
 import fr.univ_lorraine.spaceinvaders.model.HealBonus;
 import fr.univ_lorraine.spaceinvaders.model.PeriodicMonoEnemyGenerator;
+import fr.univ_lorraine.spaceinvaders.model.PeriodicMultiEnemyGenerator;
+import fr.univ_lorraine.spaceinvaders.model.ProgressiveMultiEnemyGenerator;
 import fr.univ_lorraine.spaceinvaders.model.RandomBonusGenerator;
 import fr.univ_lorraine.spaceinvaders.model.Shot;
 import fr.univ_lorraine.spaceinvaders.model.ShotCharacteristics;
 import fr.univ_lorraine.spaceinvaders.model.SimpleEnemyController;
+import fr.univ_lorraine.spaceinvaders.model.SuicideEnemyController;
 import fr.univ_lorraine.spaceinvaders.model.World;
 
 /**
@@ -82,26 +86,7 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(SpaceInvadersGame g) {
         super(g);
 
-        // Définition du monde
         world = new World(15f, 20f);
-
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
-        enemyAttributes.setIsMoving(true);
-        enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
-
-        EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
-        Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.1f*33f/9f, 10f, 1);
-        enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, -enemyAttributes.getHeight()));
-
-        enemyAttributes.setShooter(enemyShooter);
-
-        SimpleEnemyController enemyController = new SimpleEnemyController();
-        world.addEnemyController(enemyController);
-
-        PeriodicMonoEnemyGenerator enemyGenerator = new PeriodicMonoEnemyGenerator(enemyAttributes, 1f);
-        enemyGenerator.setEnemyController(enemyController);
-        world.addEnemyGenerator(enemyGenerator);
 
         // Affichage
         spriteBatch = new SpriteBatch();
@@ -141,31 +126,51 @@ public class GameScreen extends AbstractScreen {
         mainThemeMusic.setLooping(true);
 
         // Ennemi classique
-        Enemy enemyAttributes = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
-        enemyAttributes.setMaxLife(2);
-        enemyAttributes.setIsMoving(true);
-        enemyAttributes.setDirection(GameMoveableElement.Direction.DOWN);
+        Enemy simpleEnemy = new Enemy(0f, 0f, 1f, 50f/98f, 7f);
+        simpleEnemy.setMaxLife(2);
+        simpleEnemy.setCollisionDamages(2);
+        simpleEnemy.setIsMoving(true);
+        simpleEnemy.setDirection(GameMoveableElement.Direction.DOWN);
+        simpleEnemy.setEnemyGraphicType(Enemy.EnemyGraphicType.SIMPLE);
 
         EnemyShooterWithCooldown enemyShooter = new EnemyShooterWithCooldown(world, 1f);
         Shot enemyShot = new Shot(0f, 0f, 0.1f, 0.5f, 10f, 1);
         enemyShot.setDirection(GameMoveableElement.Direction.DOWN);
-        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, enemyAttributes.getWidth() / 2 - enemyShot.getWidth() / 2, -enemyAttributes.getHeight()));
+        enemyShooter.addShotCharacteristics(new ShotCharacteristics(enemyShot, simpleEnemy.getWidth() / 2 - enemyShot.getWidth() / 2, -simpleEnemy.getHeight()));
 
-        enemyAttributes.setShooter(enemyShooter);
+        simpleEnemy.setShooter(enemyShooter);
 
         Bonus healBonus = new HealBonus(0f, 0f, 0.4f*1.1521f, 0.4f, 6f, 1);
         healBonus.setDirection(GameMoveableElement.Direction.DOWN);
         BonusDropProbability healDropProbability = new BonusDropProbability(healBonus, 0.1f);  // 10% de chance de drop
-        RandomBonusGenerator randomBonusGenerator = new RandomBonusGenerator(world, enemyAttributes.getWidth()/2 - healBonus.getWidth()/2, 0f);
+        RandomBonusGenerator randomBonusGenerator = new RandomBonusGenerator(world, simpleEnemy.getWidth()/2 - healBonus.getWidth()/2, 0f);
         randomBonusGenerator.addBonusDropProbability(healDropProbability);
 
-        enemyAttributes.setBonusGenerator(randomBonusGenerator);
+        simpleEnemy.setBonusGenerator(randomBonusGenerator);
+
+        // Ennemi "suicide" (sans shooter)
+        Enemy suicideEnemy = new Enemy(0f, 0f, 0.4f, 0.4f, 20f);
+        suicideEnemy.setMaxLife(1);
+        suicideEnemy.setCollisionDamages(1);
+        suicideEnemy.setIsMoving(true);
+        suicideEnemy.setDirection(GameMoveableElement.Direction.DOWNRIGHT);
+        suicideEnemy.setEnemyGraphicType(Enemy.EnemyGraphicType.SMALL);
+
+        healDropProbability = new BonusDropProbability(healBonus, 1f);  // 100% de chance de drop
+        randomBonusGenerator = new RandomBonusGenerator(world, suicideEnemy.getWidth()/2 - healBonus.getWidth()/2, 0f);
+        randomBonusGenerator.addBonusDropProbability(healDropProbability);
+
+        suicideEnemy.setBonusGenerator(randomBonusGenerator);
 
         SimpleEnemyController enemyController = new SimpleEnemyController();
         world.addEnemyController(enemyController);
 
-        PeriodicMonoEnemyGenerator enemyGenerator = new PeriodicMonoEnemyGenerator(enemyAttributes, 1f);
-        enemyGenerator.setEnemyController(enemyController);
+        SuicideEnemyController suicideEnemyController = new SuicideEnemyController();
+        world.addEnemyController(suicideEnemyController);
+
+        ProgressiveMultiEnemyGenerator enemyGenerator = new ProgressiveMultiEnemyGenerator(1.1f, 10f);
+        enemyGenerator.addEnemyPeriodicGeneration(new EnemyPeriodicGeneration(simpleEnemy, 1.5f, enemyController));
+        enemyGenerator.addEnemyPeriodicGeneration(new EnemyPeriodicGeneration(suicideEnemy, 15f, suicideEnemyController));
         world.addEnemyGenerator(enemyGenerator);
 
         worldRenderer.setWorld(world);

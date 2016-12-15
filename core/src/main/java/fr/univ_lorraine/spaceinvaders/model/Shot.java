@@ -1,13 +1,9 @@
 package fr.univ_lorraine.spaceinvaders.model;
 
-import com.badlogic.gdx.utils.Pool;
-
 /**
  * Classe modelisant un tir.
  */
 public class Shot extends GameMoveableElement {
-
-    private int damages;
 
     public Shot() {
         super();
@@ -15,16 +11,16 @@ public class Shot extends GameMoveableElement {
 
     public Shot(float x, float y, float w, float h, float s, int dam) {
         super(x, y, w, h, s);
-        damages = dam;
+        collisionDamages = dam;
     }
 
     public void init(Shot shot) {
         super.init(shot);
-        damages = shot.damages;
+        collisionDamages = shot.collisionDamages;
     }
 
-    public int getDamages() {
-        return damages;
+    public int getCollisionDamages() {
+        return collisionDamages;
     }
 
     @Override

@@ -1,11 +1,13 @@
 package fr.univ_lorraine.spaceinvaders.model;
 
-import com.badlogic.gdx.utils.Pool;
-
 /**
  * Classe decrivant un ennemi.
  */
 public class Enemy extends GameMoveableElement {
+
+    public enum EnemyGraphicType { SIMPLE, SMALL }
+
+    private EnemyGraphicType enemyGraphicType;
 
     private AbstractShooter shooter;
 
@@ -35,6 +37,14 @@ public class Enemy extends GameMoveableElement {
         shooter = s;
     }
 
+    public EnemyGraphicType getEnemyGraphicType() {
+        return enemyGraphicType;
+    }
+
+    public void setEnemyGraphicType(EnemyGraphicType enemyGraphicType) {
+        this.enemyGraphicType = enemyGraphicType;
+    }
+
     public AbstractBonusGenerator getBonusGenerator() { return bonusGenerator; }
 
     public void setBonusGenerator(AbstractBonusGenerator generator) {
@@ -54,11 +64,11 @@ public class Enemy extends GameMoveableElement {
                 break;
             case SHOT:
                 Shot s = (Shot) element;
-                this.life -= s.getDamages();
+                this.life -= s.getCollisionDamages();
+                if (life <= 0)
+                    onKill();
                 break;
         }
-        if (life <= 0)
-            onDie();
     }
 
     @Override
@@ -72,13 +82,14 @@ public class Enemy extends GameMoveableElement {
             bonusGenerator.update(delta);
     }
 
-    public void onDie() {
+    public void onKill() {
         if (bonusGenerator != null)
             bonusGenerator.generateBonus(position);
     }
 
     public void init(Enemy enemy) {
         super.init(enemy);
+        this.enemyGraphicType = enemy.enemyGraphicType;
         if (enemy.getShooter() != null)
             this.setShooter(enemy.getShooter().copy());
         if (enemy.getBonusGenerator() != null)
@@ -88,7 +99,9 @@ public class Enemy extends GameMoveableElement {
     @Override
     public void reset() {
         super.reset();
+        enemyGraphicType = null;
         shooter = null;
+        bonusGenerator = null;
     }
 
     @Override

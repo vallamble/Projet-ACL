@@ -6,7 +6,7 @@ package fr.univ_lorraine.spaceinvaders.model;
 public class SimpleEnemyController extends AbstractEnemyController {
 
     @Override
-    public void control() {
+    public void control(World world) {
         // On fait tirer les ennemis des que possible
         for (Enemy enemy : enemies)
             enemy.shoot();

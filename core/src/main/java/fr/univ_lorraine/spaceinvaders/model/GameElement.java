@@ -16,7 +16,9 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
 
 	protected int life;
 
-    /**
+	protected int collisionDamages;
+
+	/**
      * Figure definissant la zone de collision de cet element.
      */
 	protected Rectangle boundingBox;
@@ -26,6 +28,7 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
 		boundingBox = new Rectangle();
 		maxLife = 1;
 		life = maxLife;
+        collisionDamages = 0;
 	}
 
 	public GameElement(float x, float y, float w, float h) {
@@ -35,6 +38,7 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
 		boundingBox = new Rectangle(position.x, position.y, width, height);
 		maxLife = 1;
 		life = maxLife;
+        collisionDamages = 0;
 	}
 
     /**
@@ -86,6 +90,14 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
         updateBoundingBox();
     }
 
+    public int getCollisionDamages() {
+        return collisionDamages;
+    }
+
+    public void setCollisionDamages(int collisionDamages) {
+        this.collisionDamages = collisionDamages;
+    }
+
     @Override
 	public boolean hasCollision(GameElement element) {
 		if (element != null && boundingBox != null && element.getBoundingBox() != null) {
@@ -106,6 +118,7 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
         boundingBox.set(position.x, position.y, width, height);
 		this.maxLife = gameElement.maxLife;
 		this.life = this.maxLife;
+        this.collisionDamages = gameElement.collisionDamages;
 	}
 
 	/**
@@ -118,6 +131,7 @@ public abstract class GameElement implements Collidable, Pool.Poolable {
 		this.width = 0f;
 		this.maxLife = 0;
 		this.life = 0;
+        this.collisionDamages = 0;
 		updateBoundingBox();
 	}
 

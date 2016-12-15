@@ -28,7 +28,9 @@ public class TextureFactory {
 
     private TextureRegion player;
 
-    private TextureRegion enemyShip;
+    private TextureRegion simpleEnemyShip;
+
+    private TextureRegion smallEnemyShip;
 
     private TextureRegion laserGreen;
 
@@ -51,8 +53,9 @@ public class TextureFactory {
         menuBoutonScoresSelect = new TextureRegion(new Texture(Gdx.files.internal("images/tableauScoreSelect.png")));
         boutonPause = new TextureRegion(new Texture(Gdx.files.internal("images/boutonPause.png")));
         player = new TextureRegion(new Texture(Gdx.files.internal("images/player.png")));
-        enemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/enemyShip.png")));
-        enemyShip.flip(false, true);
+        simpleEnemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/simpleEnemyShip.png")));
+        simpleEnemyShip.flip(false, true);
+        smallEnemyShip = new TextureRegion(new Texture(Gdx.files.internal("images/smallEnemyBlue.png")));
         laserGreen = new TextureRegion(new Texture(Gdx.files.internal("images/laserGreen.png")));
         laserRed = new TextureRegion(new Texture(Gdx.files.internal("images/laserRed.png")));
         fullHeart = new TextureRegion(new Texture(Gdx.files.internal("images/fullHeart.png")));
@@ -88,8 +91,12 @@ public class TextureFactory {
         return player;
     }
 
-    public TextureRegion getEnemyShip() {
-        return enemyShip;
+    public TextureRegion getSimpleEnemyShip() {
+        return simpleEnemyShip;
+    }
+
+    public TextureRegion getSmallEnemyShip() {
+        return smallEnemyShip;
     }
 
     public TextureRegion getLaserGreen() {
