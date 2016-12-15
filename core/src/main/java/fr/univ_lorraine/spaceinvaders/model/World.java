@@ -254,17 +254,12 @@ public class World {
             if (enemy.hasCollision(player)) {
                 enemy.handleCollision(player);
                 player.handleCollision(enemy);
-                if (player.isDead()) {  // Si le joueur est mort
-                    endGame = true;
-                    return;             // On arrete le jeu
-                }
             }
 
             // On verifie les collisions avec les tirs du joueurs
             for (Iterator<Shot> playerShotIterator = playerShots.iterator(); playerShotIterator.hasNext();) {
                 Shot playerShot = playerShotIterator.next();
-                // On ne verifie pas la collision si l'ennemi est deja mort
-                if (!enemy.isDead() && enemy.hasCollision(playerShot)) {
+                if (enemy.hasCollision(playerShot)) {
                     enemy.handleCollision(playerShot);
                     playerShot.handleCollision(enemy);
                     if (playerShot.isDead()) {          // Si le tir est detruit
@@ -289,10 +284,6 @@ public class World {
             if (enemyShot.hasCollision(player)) {
                 enemyShot.handleCollision(player);
                 player.handleCollision(enemyShot);
-                if (player.isDead()) {  // Si le joueur est mort
-                    endGame = true;
-                    return;             // On arrete le jeu
-                }
                 if (enemyShot.isDead()) {          // Si le tir est detruit
                     shotPool.free(enemyShot);      // on le remet dans le pool
                     enemyShotIterator.remove();    // et on l'enleve de la liste des tirs actifs
@@ -306,16 +297,14 @@ public class World {
             if (bonus.hasCollision(player)) {
                 bonus.handleCollision(player);
                 player.handleCollision(bonus);
-                if (player.isDead()) {  // Si le joueur est mort
-                    endGame = true;
-                    return;             // On arrete le jeu
-                }
                 if (bonus.isDead()) {
                     bonusIterator.remove();
                 }
             }
         }
 
+        if (player.isDead())// Si le joueur est mort
+            endGame = true; // On arrete le jeu
     }
 
 }
