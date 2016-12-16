@@ -168,7 +168,7 @@ public class GameScreen extends AbstractScreen {
         SuicideEnemyController suicideEnemyController = new SuicideEnemyController();
         world.addEnemyController(suicideEnemyController);
 
-        ProgressiveMultiEnemyGenerator enemyGenerator = new ProgressiveMultiEnemyGenerator(1.1f, 10f);
+        ProgressiveMultiEnemyGenerator enemyGenerator = new ProgressiveMultiEnemyGenerator(1.5f, 10f);
         enemyGenerator.addEnemyPeriodicGeneration(new EnemyPeriodicGeneration(simpleEnemy, 1.5f, enemyController));
         enemyGenerator.addEnemyPeriodicGeneration(new EnemyPeriodicGeneration(suicideEnemy, 15f, suicideEnemyController));
         world.addEnemyGenerator(enemyGenerator);
