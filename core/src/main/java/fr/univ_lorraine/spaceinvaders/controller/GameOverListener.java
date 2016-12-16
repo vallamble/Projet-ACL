@@ -14,17 +14,22 @@ public class GameOverListener implements InputProcessor {
     GameOverScreen gameOver;
 
     public GameOverListener(GameOverScreen gameOverScreen) {
+
         gameOver = gameOverScreen;
     }
-
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.UP:
-                //newRec.setChoice(1);
+                gameOver.setChoice(1);
                 break;
-
+            case Input.Keys.DOWN:
+                gameOver.setChoice(-1);
+                break;
+            case Input.Keys.ENTER:
+                gameOver.selectChoice();
+                break;
         }
         return false;
     }

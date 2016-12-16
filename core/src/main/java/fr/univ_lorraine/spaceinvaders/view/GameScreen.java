@@ -1,5 +1,6 @@
 package fr.univ_lorraine.spaceinvaders.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
@@ -211,8 +212,9 @@ public class GameScreen extends AbstractScreen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // Si le jeu est termine, on le reinitialise
-        if (world.getEndGame())
-            resetGame();
+        if (world.getEndGame()){
+            game.setGameOverScore(world.getPlayerScore());
+            game.changeScreen(SpaceInvadersGame.ScreenEnum.GAME_OVER);}
 
         // On affiche les fps si necessaire
         if (showFPS)

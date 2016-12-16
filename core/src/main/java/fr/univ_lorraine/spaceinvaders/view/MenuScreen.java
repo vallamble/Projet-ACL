@@ -102,6 +102,9 @@ public class MenuScreen extends AbstractScreen {
     public void selectChoice() {
         if(choice == MenuChoice.LANCER_PARTIE)
             game.changeScreen(SpaceInvadersGame.ScreenEnum.GAME_SCREEN);
+        if(choice == MenuChoice.MEILLEURES_SCORES){
+            game.setGameOverScore(-1);
+            game.changeScreen(SpaceInvadersGame.ScreenEnum.MEILLEURES_SCORES);}
         if(choice == MenuChoice.QUITTER)
             Gdx.app.exit();
     }

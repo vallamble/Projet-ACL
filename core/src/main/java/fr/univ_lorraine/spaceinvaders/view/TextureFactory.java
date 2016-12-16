@@ -42,7 +42,24 @@ public class TextureFactory {
 
     private TextureRegion emptyHeart;
 
+    private TextureRegion backgroundGameOver;
+
+    private TextureRegion gameOver;
+
+    private TextureRegion meilleurScore;
+
+    private TextureRegion gameoverBoutonMenu;
+
+
+    public TextureRegion getBackgroundGameOver() {
+        return backgroundGameOver;
+    }
+
+
+
     private TextureFactory() {
+        meilleurScore = new TextureRegion(new Texture(Gdx.files.internal("images/meilleurScore.png")));
+        backgroundGameOver = new TextureRegion(new Texture(Gdx.files.internal("images/endBackground.jpg")));
         background = new TextureRegion(new Texture(Gdx.files.internal("images/starBackground.png")));
         menuBackground = new TextureRegion(new Texture(Gdx.files.internal("images/menuBackground.png")));
         menuBoutonLancer = new TextureRegion(new Texture(Gdx.files.internal("images/lancer.png")));
@@ -61,6 +78,8 @@ public class TextureFactory {
         fullHeart = new TextureRegion(new Texture(Gdx.files.internal("images/fullHeart.png")));
         midHeart = new TextureRegion(new Texture(Gdx.files.internal("images/midHeart.png")));
         emptyHeart = new TextureRegion(new Texture(Gdx.files.internal("images/emptyHeart.png")));
+        gameOver = new TextureRegion(new Texture(Gdx.files.internal("images/gameOver.png")));
+        gameoverBoutonMenu = new TextureRegion(new Texture(Gdx.files.internal("images/menuSelect.png")));
     }
 
     public static TextureFactory getInstance() {
@@ -118,4 +137,17 @@ public class TextureFactory {
     public TextureRegion getEmptyHeart() {
         return emptyHeart;
     }
+
+    public TextureRegion getGameOver() {
+        return gameOver;
+    }
+
+    public TextureRegion getMeilleurScore() {
+        return meilleurScore;
+    }
+
+    public TextureRegion getGameoverBoutonMenu() {
+        return gameoverBoutonMenu;
+    }
 }
+

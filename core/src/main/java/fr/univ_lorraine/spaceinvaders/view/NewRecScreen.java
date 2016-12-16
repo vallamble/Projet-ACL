@@ -10,7 +10,6 @@ import fr.univ_lorraine.spaceinvaders.SpaceInvadersGame;
  */
 public class NewRecScreen extends AbstractScreen {
 
-    private NewRecRenderer newRecRenderer;
 
     private MenuChoice choice = MenuChoice.LANCER_PARTIE;
 
@@ -23,7 +22,6 @@ public class NewRecScreen extends AbstractScreen {
 
     public NewRecScreen(SpaceInvadersGame g) {
         super(g);
-        newRecRenderer = new NewRecRenderer(this);
         showFPS = false;
     }
 
@@ -37,17 +35,7 @@ public class NewRecScreen extends AbstractScreen {
         // On verifie si une touche est maintenue
         //menuListener.checkHeldKey();
 
-        newRecRenderer.render(); // et on l'affiche
-
         Gdx.gl.glDisable(GL20.GL_BLEND);
-    }
-
-
-
-
-    @Override
-    public void resize(int width, int height) {
-        newRecRenderer.resize(width, height);
     }
 
 }
