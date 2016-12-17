@@ -213,6 +213,7 @@ public class GameScreen extends AbstractScreen {
 
         // Si le jeu est termine, on le reinitialise
         if (world.getEndGame()){
+            mainThemeMusic.stop();
             game.setGameOverScore(world.getPlayerScore());
             game.changeScreen(SpaceInvadersGame.ScreenEnum.GAME_OVER);}
 

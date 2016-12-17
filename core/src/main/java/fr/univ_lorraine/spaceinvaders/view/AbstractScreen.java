@@ -14,14 +14,9 @@ public abstract class AbstractScreen extends ScreenAdapter {
      * Permet de changer d'ecran en appelant changeScreen de SpaceInvadersGame.
      */
     protected SpaceInvadersGame game;
-    protected int score;
 
     public AbstractScreen(SpaceInvadersGame g) {
         game = g;
     }
 
-    public AbstractScreen(SpaceInvadersGame g, int s) {
-        game = g;
-        score = s;
-    }
 }

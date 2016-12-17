@@ -22,27 +22,22 @@ public class GameOverScreen extends AbstractScreen {
 
     private SpriteBatch spriteBatch;
 
+    private BitmapFont bitmapFont;
+
     private OrthographicCamera camera;
 
     private Viewport viewport;
 
     private float ppux, ppuy;
 
-
     private int score;
 
-      private GameOverScreen.GameOverChoice choice = GameOverScreen.GameOverChoice.MENU;
-
-
-    /**
-     * Active/desactive le fpsLogger.
-     */
-
+    private GameOverScreen.GameOverChoice choice = GameOverScreen.GameOverChoice.MENU;
 
     public GameOverScreen(SpaceInvadersGame g) {
-
         super(g);
         spriteBatch = new SpriteBatch();
+        bitmapFont = new BitmapFont(Gdx.files.internal("fonts/test.fnt"));
         camera = new OrthographicCamera();
         ppux = 95f;
         ppuy = 95f;
@@ -61,19 +56,10 @@ public class GameOverScreen extends AbstractScreen {
 
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
+
         drawBackground();
-        spriteBatch.end();
-        //drawScore();
+        spriteBatch.draw(TextureFactory.getInstance().getGameoverBoutonMenu(), 6 * ppux, 1 * ppuy, width1 * ppux / 4, height1 * ppuy / 10);
 
-
-
-
-    }
-
-
-    private void drawBackground() {
-        spriteBatch.draw(TextureFactory.getInstance().getBackgroundGameOver(), 0 * ppux, 0 * ppuy, width1 * ppux, height1 * ppuy);
-        spriteBatch.draw(TextureFactory.getInstance().getGameoverBoutonMenu(), 6 * ppux, 1 * ppuy, width1 * ppux/4, height1 * ppuy/10);
         if(this.score==-1){
             spriteBatch.draw(TextureFactory.getInstance().getMeilleurScore(), 4 * ppux, 15 * ppuy, width3 * ppux, height3 * ppuy);
         }
@@ -81,16 +67,18 @@ public class GameOverScreen extends AbstractScreen {
             spriteBatch.draw(TextureFactory.getInstance().getGameOver(), 4 * ppux, 13 * ppuy, width2 * ppux, height2 * ppuy);
             drawScore();
         }
+
+
+        spriteBatch.end();
+    }
+
+
+    private void drawBackground() {
+        spriteBatch.draw(TextureFactory.getInstance().getBackgroundGameOver(), 0 * ppux, 0 * ppuy, width1 * ppux, height1 * ppuy);
     }
 
     private void drawScore() {
-        BitmapFont font=new BitmapFont(Gdx.files.internal("fonts/test.ttf"), false);
-
-        //http://stackoverflow.com/questions/17127201/libgdx-add-scores-display-it-at-top-left-corner-of-the-screen
-        //http://tuto-libgdx.blogspot.fr/2013/08/6-les-fonts.html
-        spriteBatch.begin();
-        font.draw(spriteBatch, Integer.toString(score), 50,80);
-        spriteBatch.end();
+        bitmapFont.draw(spriteBatch, Integer.toString(score), 50,80);
     }
 
     public void setChoice(int num) {
@@ -100,14 +88,12 @@ public class GameOverScreen extends AbstractScreen {
         }
     }
 
-
     public void selectChoice() {
         if(choice == GameOverScreen.GameOverChoice.MENU) {
             game.changeScreen(SpaceInvadersGame.ScreenEnum.MENU_SCREEN);
         }
 
     }
-
 
     public void resize(int width1, int height1) { viewport.update(width1, height1);
     }

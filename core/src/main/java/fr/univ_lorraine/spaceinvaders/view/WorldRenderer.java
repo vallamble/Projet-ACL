@@ -141,16 +141,13 @@ public class WorldRenderer {
         shapeRenderer.rect(0 * ppux, 0 * ppuy, worldLeftPadding * ppux, (world.getHeight() + worldTopPadding + worldBottomPadding) * ppuy);
         // droite
         shapeRenderer.rect((worldLeftPadding + world.getWidth()) * ppux, 0 * ppuy, worldRightPadding * ppux, (world.getHeight() + worldTopPadding + worldBottomPadding) * ppuy);
-
         shapeRenderer.end();
+
         // On dessine les coeurs representants la vie du joueur
         spriteBatch.begin();
         drawPlayerLife();
         // On affiche le score
-        String score = Integer.toString(world.getPlayerScore());
-        fontBatch.getData().setScale(worldBottomPadding * 2f);
-        glyphLayout.setText(fontBatch, scoreText + score);
-        fontBatch.draw(spriteBatch, scoreText + score, 0 * ppux, (worldBottomPadding + world.getHeight()) * ppuy + glyphLayout.height * 1.1f);
+        drawScore();
         spriteBatch.end();
     }
 
@@ -170,6 +167,13 @@ public class WorldRenderer {
 
             spriteBatch.draw(toDraw, (0 + decalageHori * (i-1)) * ppux, 0 * ppuy, heartWidth * ppuy, heartHeight * ppux);
         }
+    }
+
+    private void drawScore() {
+        String score = Integer.toString(world.getPlayerScore());
+        fontBatch.getData().setScale(worldBottomPadding * 2f);
+        glyphLayout.setText(fontBatch, scoreText + score);
+        fontBatch.draw(spriteBatch, scoreText + score, 0 * ppux, (worldBottomPadding + world.getHeight()) * ppuy + glyphLayout.height * 1.1f);
     }
 
 }
